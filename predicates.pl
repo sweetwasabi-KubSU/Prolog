@@ -16,3 +16,7 @@ daughter(X):-parent(X,Y),woman(Y),write(Y),fail.
 % task 1.5
 brother(X,Y):-parent(Z,Y),parent(Z,X),man(Z),man(X),not(X=Y).
 brothers(X):-brother(Y,X),write(Y),nl.
+
+% task 1.6
+wife(X,Y):-parent(Y,Z),parent(X,Z),woman(X).
+wife(X):-man(X),wife(Y,X),write(Y).
