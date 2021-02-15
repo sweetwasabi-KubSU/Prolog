@@ -57,10 +57,10 @@ parent(allison,carla).
 parent(allison,jordan).
 parent(allison,jessica).
 parent(liam,elliot).
-parent(liam,cristopher).
+parent(liam,christopher).
 parent(liam,percival).
 parent(debbie,elliot).
-parent(debbie,cristopher).
+parent(debbie,christopher).
 parent(debbie,percival).
 parent(john,cersei).
 parent(daenerys,cersei).

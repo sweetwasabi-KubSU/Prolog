@@ -13,3 +13,6 @@ mother(X):-parent(Y,X),woman(Y),write(Y).
 daughter(X,Y):-parent(Y,X),woman(X).
 daughter(X):-parent(X,Y),woman(Y),write(Y),fail.
 
+% task 1.5
+brother(X,Y):-parent(Z,Y),parent(Z,X),man(Z),man(X),not(X=Y).
+brothers(X):-brother(Y,X),write(Y),nl.
