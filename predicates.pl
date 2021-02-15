@@ -24,3 +24,7 @@ wife(X):-man(X),wife(Y,X),write(Y).
 % task 1.7
 b_s(X,Y):-parent(Z,X),parent(Z,Y),woman(Z),not(X=Y).
 b_s(X):-b_s(X,Y),write(Y),nl,fail.
+
+% task 1.8
+grand_pa(X,Y):-parent(Z,Y),parent(X,Z),man(X).
+grand_pa(X):-grand_pa(Y,X),write(Y),nl,fail.
