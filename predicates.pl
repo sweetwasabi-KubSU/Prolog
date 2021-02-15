@@ -36,3 +36,7 @@ grand_dats(X):-grand_da(Y,X),write(Y),nl,fail.
 % task 1.10
 grand_pa_and_son(X,Y):-grand_pa(X,Y),man(Y).
 grand_pa_and_son(X,Y):-grand_pa(Y,X),man(X).
+
+% task 1.11
+grand_ma_and_da(X,Y):-parent(X,Z),parent(Z,Y),woman(X),woman(Y).
+grand_ma_and_da(X,Y):-parent(Y,Z),parent(Z,X),woman(X),woman(Y).
