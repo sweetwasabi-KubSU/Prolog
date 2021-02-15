@@ -27,12 +27,13 @@ man(lucifer).
 man(dean).
 man(sam).
 man(dipper).
-man(tyrion).
+man(tiryon).
 
 parent(hannah,lucifer).
 parent(clay,lucifer).
 parent(sansa,fiona).
 parent(sansa,ian).
+parent(tiryon,fiona).
 parent(tiryon,ian).
 parent(lisa,allison).
 parent(lisa,robert).

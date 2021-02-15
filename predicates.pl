@@ -42,5 +42,9 @@ grand_ma_and_da(X,Y):-parent(X,Z),parent(Z,Y),woman(X),woman(Y).
 grand_ma_and_da(X,Y):-parent(Y,Z),parent(Z,X),woman(X),woman(Y).
 
 % task 1.12
-uncle(X,Y):-woman(Y),parent(Z,Y),brother(X,Z).
+uncle(X,Y):-parent(Z,Y),brother(X,Z).
 uncles(X):-uncle(Y,X),write(Y),nl,fail.
+
+% task 1.13
+newphew(X,Y):-man(X),uncle(Y,X).
+newphews(X):-newphew(Y,X),write(Y),nl,fail.
