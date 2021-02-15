@@ -28,3 +28,7 @@ b_s(X):-b_s(X,Y),write(Y),nl,fail.
 % task 1.8
 grand_pa(X,Y):-parent(Z,Y),parent(X,Z),man(X).
 grand_pa(X):-grand_pa(Y,X),write(Y),nl,fail.
+
+% task 1.9
+grand_da(X,Y):-parent(Y,Z),parent(Z,X),woman(X).
+grand_dats(X):-grand_da(Y,X),write(Y),nl,fail.
