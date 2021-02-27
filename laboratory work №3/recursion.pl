@@ -9,14 +9,25 @@ max(_,_,U,U).
 
 % task 3.3
 % fact(1,1):-!.
-% fact(N,X):-CurN is N-1,fact(CurN,CurX),X is CurX*N.
+% fact(N,X):-	CurN is N-1,fact(CurN,CurX),
+%		X is CurX*N.
 
 % task 3.4
 extraFact(1,CurX,CurX):-!.
-extraFact(N,CurX,X):-NewX is CurX*N,CurN is N-1,extraFact(CurN,NewX,X).
+extraFact(N,CurX,X):-	NewX is CurX*N,CurN is N-1,
+			extraFact(CurN,NewX,X).
 fact(N,X):-extraFact(N,1,X).
 
 % task 3.5
-fib(1,1):-!.
-fib(2,1):-!.
-fib(N,X):-PrevX is N-2,fib(PrevX,X1),NextX is N-1,fib(NextX,X2),X is X1+X2.
+% fib(1,1):-!.
+% fib(2,1):-!.
+% fib(N,X):-	PrevX is N-2,fib(PrevX,X1),
+%		NextX is N-1,fib(NextX,X2),
+%		X is X1+X2.
+
+% task 3.6
+extraFib(1,_,NextX,NextX):-!.
+extraFib(2,_,NextX,NextX):-!.
+extraFib(N,PrevX,NextX,X):-	CurX is PrevX+NextX,CurN is N-1,
+				extraFib(CurN,NextX,CurX,X).
+fib(N,X):-extraFib(N,1,1,X).
