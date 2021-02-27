@@ -8,5 +8,11 @@ max(_,Y,U,Z):-Y>=U,Z is Y,!.
 max(_,_,U,U).
 
 % task 3.3
-fact(1,1):-!.
-fact(N,X):-CurN is N-1,fact(CurN,CurX),X is CurX*N.
+% fact(1,1):-!.
+% fact(N,X):-CurN is N-1,fact(CurN,CurX),X is CurX*N.
+
+% task 3.4
+extraFact(1,CurX,CurX):-!.
+extraFact(N,CurX,X):-NewX is CurX*N,CurN is N-1,extraFact(CurN,NewX,X).
+fact(N,X):-extraFact(N,1,X).
+
