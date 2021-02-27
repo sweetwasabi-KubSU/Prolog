@@ -16,3 +16,7 @@ extraFact(1,CurX,CurX):-!.
 extraFact(N,CurX,X):-NewX is CurX*N,CurN is N-1,extraFact(CurN,NewX,X).
 fact(N,X):-extraFact(N,1,X).
 
+% task 3.5
+fib(1,1):-!.
+fib(2,1):-!.
+fib(N,X):-PrevX is N-2,fib(PrevX,X1),NextX is N-1,fib(NextX,X2),X is X1+X2.
