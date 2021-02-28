@@ -45,7 +45,7 @@ sumDigits(N,X):-extraSumDigits(N,0,X).
 
 % task 3.9.9 - минимальная цифра числа через рекурсию вверх
 % minDigit(N,X):-	CurX is N mod 10,CurN is N div 10,
-%			(CurN=:=0-> MinX is CurX;minDigit(CurN,MinX)),
+%			(CurN=:=0 -> MinX is CurX;minDigit(CurN,MinX)),
 %			(CurX<MinX -> X=CurX;X=MinX).
 
 % task 3.10.9 - минимальная цифра числа через рекурсию вниз
@@ -59,12 +59,17 @@ minDigit(N,X):-	extraMinDigit(N,N,X).
 % 		сответственно для данного случая ответ не ноль (правильный), а единица
 % multDigits(0,0):-!.	% частный случай при вводе нуля
 % multDigits(N,X):-	CurX is N mod 10,CurN is N div 10,
-%			(CurN=:=0-> MultX=1;multDigits(CurN,MultX)),
-%			Reminder is CurX mod 5,(0=:=Reminder -> X is MultX;X is CurX*MultX).
+%			(CurN=:=0 -> MultX=1;multDigits(CurN,MultX)),
+%			Reminder is CurX mod 5,(Reminder=:=0 -> X is MultX;X is CurX*MultX).
 
 % task 3.11.9 - произведение цифр числа, не делящихся на 5 через рекурсию вниз
-% *сохраняется предыдущее примечение*
+% 		*сохраняется предыдущее примечение*
 extraMultDigits(N,MultX,X):-	CurX is N mod 10,CurN is N div 10,Reminder is CurX mod 5,
-				(0=:=Reminder -> NewMultX is MultX;NewMultX is CurX*MultX),
+				(Reminder=:=0 -> NewMultX is MultX;NewMultX is CurX*MultX),
 				(CurN=:=0 -> X is NewMultX;extraMultDigits(CurN,NewMultX,X)).
 multDigits(N,X):-(N=:=0 -> X is 0;extraMultDigits(N,1,X)).
+
+% task 3.12 - количество цифр числа, меньших 3 через рекурсию вверх
+numberOfDigits(N,X):-	CurX is N mod 10,CurN is N div 10,
+			(CurN=:=0 -> NewCurX=0;numberOfDigits(CurN,NewCurX)),
+			(CurX<3 -> X is NewCurX+1;X=NewCurX).
