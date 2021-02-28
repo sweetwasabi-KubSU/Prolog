@@ -78,3 +78,8 @@ numberOfDigits(N,X):-	CurX is N mod 10,CurN is N div 10,
 numbersGCD(A,0,A):-!.
 numbersGCD(A,B,X):-	(A>B -> Min is B,Reminder is A-B;Min is A,Reminder is B-A),
 			numbersGCD(Min,Reminder,X).
+
+% task 3.*12 - проверка числа на простоту (через рекурсию вниз)
+extraPrimeNumber(N,X):-	(X>N div 2 -> !;Reminder is N mod X,
+			(Reminder=:=0 -> fail;CurX is X+1,extraPrimeNumber(N,CurX))).
+primeNumber(N):-((N=:=0;N=:=1) -> fail;extraPrimeNumber(N,2)).
