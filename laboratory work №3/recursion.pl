@@ -53,3 +53,9 @@ extraMinDigit(N,MinX,X):-	CurX is N mod 10,CurN is N div 10,
 				(CurX<MinX -> NewMinX is CurX;NewMinX is MinX),
 				(CurN=:=0 -> X=NewMinX;extraMinDigit(CurN,NewMinX,X)).
 minDigit(N,X):-	extraMinDigit(N,N,X).
+
+% task 3.11.9 - произведение цифр числа, не делящихся на 5 через рекурсию вверх
+multDigits(0,0):-!.	% частный случай при вводе нуля
+multDigits(N,X):-	CurX is N mod 10,CurN is N div 10,
+			(CurN=:=0-> MultX=1;multDigits(CurN,MultX)),
+			Reminder is CurX mod 5,(0=:=Reminder -> X is MultX;X is CurX*MultX).
