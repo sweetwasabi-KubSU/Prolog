@@ -44,6 +44,12 @@ extraSumDigits(N,CurX,X):-	NewX is CurX + N mod 10,CurN is N div 10,
 sumDigits(N,X):-extraSumDigits(N,0,X).
 
 % task 3.9.9 - минимальная цифра числа через рекурсию вверх
-minDigit(N,X):-	CurX is N mod 10,CurN is N div 10,
-		(CurN=:=0-> MinX is CurX;minDigit(CurN,MinX)),
-		(CurX<MinX -> X=CurX;X=MinX).
+% minDigit(N,X):-	CurX is N mod 10,CurN is N div 10,
+%			(CurN=:=0-> MinX is CurX;minDigit(CurN,MinX)),
+%			(CurX<MinX -> X=CurX;X=MinX).
+
+% task 3.10.9 - минимальная цифра числа через рекурсию вниз
+extraMinDigit(N,MinX,X):-	CurX is N mod 10,CurN is N div 10,
+				(CurX<MinX -> NewMinX is CurX;NewMinX is MinX),
+				(CurN=:=0 -> X=NewMinX;extraMinDigit(CurN,NewMinX,X)).
+minDigit(N,X):-	extraMinDigit(N,N,X).
