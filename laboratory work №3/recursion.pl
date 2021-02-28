@@ -33,5 +33,12 @@ extraFib(N,PrevX,NextX,X):-	CurX is PrevX+NextX,CurN is N-1,
 fib(N,X):-extraFib(N,1,1,X).
 
 % task 3.7 - сумма цифр числа через рекурсию вверх
-sumDigits(0,0):-!.
-sumDigits(N,X):-CurN is N div 10,sumDigits(CurN,CurX),X is CurX + N mod 10. 
+% sumDigits(0,0):-!.
+% sumDigits(N,X):-	CurN is N div 10,sumDigits(CurN,CurX),
+%			X is CurX + N mod 10.
+
+% task 3.8 - сумма цифр числа через рекурсию вниз
+extraSumDigits(0,CurX,CurX):-!.
+extraSumDigits(N,CurX,X):-	NewX is CurX + N mod 10,CurN is N div 10,
+				extraSumDigits(CurN,NewX,X).
+sumDigits(N,X):-extraSumDigits(N,0,X).
