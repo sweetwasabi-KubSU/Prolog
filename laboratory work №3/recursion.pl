@@ -83,3 +83,10 @@ numbersGCD(A,B,X):-	(A>B -> Min is B,Reminder is A-B;Min is A,Reminder is B-A),
 extraPrimeNumber(N,X):-	(X>N div 2 -> !;Reminder is N mod X,
 			(Reminder=:=0 -> fail;CurX is X+1,extraPrimeNumber(N,CurX))).
 primeNumber(N):-((N=:=0;N=:=1) -> fail;extraPrimeNumber(N,2)).
+
+% task 3.*12 - количество делителей числа (через рекурсию вверх)
+extraNumDivs(_,1,1):-!.
+extraNumDivs(N,D,X):-	CurD is D-1,extraNumDivs(N,CurD,CurX),
+			Reminder is N mod D,
+			(Reminder=:=0 -> X is CurX+1;X is CurX).
+numDivs(N,X):-(N=:=0 -> X=0;extraNumDivs(N,N,X)).
