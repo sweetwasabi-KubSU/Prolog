@@ -92,6 +92,21 @@ extraNumDivs(N,D,X):-	CurD is D-1,extraNumDivs(N,CurD,CurX),
 			(Reminder=:=0 -> X is CurX+1;X is CurX).
 numDivs(N,X):-(N=:=0 -> X=0;extraNumDivs(N,N,X)).
 
+% task 3.13 -	*итерационная последовательность (гипотеза коллатца)*
+%		найти стартовый номер, менее одного миллиона с самой длинной цепочкой
+% 		*less than 10^6 is 837799, which has 524 steps*
+
+% рекурсия вниз
+extraCollatz(1,0):-!.
+extraCollatz(N,X):-	(0 is N mod 2 -> CurN is N div 2;CurN is N*3+1),
+			extraCollatz(CurN,CurX),X is CurX+1.
+% рекурсия вверх
+collatzIterating(1,1,2):-!.
+collatzIterating(N,MaxN,MaxX):-	CurN is N-1,collatzIterating(CurN,NewN,NewX),extraCollatz(CurN,CurX),
+				(CurX>NewX -> MaxX=CurX,MaxN=CurN;MaxX=NewX,MaxN=NewN).
+
+collatz(Number,Length):-collatzIterating(1000000,Number,Length).
+
 % task 3.14.9 -	максимальный простой делитель числа (через рекурсию вниз)
 % extraPrimeDiv(_,0,_):-write("Number has no prime divisors!"),!.
 % extraPrimeDiv(N,CurX,X):-	(0 is N mod CurX,primeNumber(CurX) -> X=CurX;
