@@ -92,7 +92,15 @@ extraNumDivs(N,D,X):-	CurD is D-1,extraNumDivs(N,CurD,CurX),
 numDivs(N,X):-(N=:=0 -> X=0;extraNumDivs(N,N,X)).
 
 % task 3.14.9 -	максимальный простой делитель числа (через рекурсию вниз)
-extraPrimeDiv(_,0,_):-write("Number has no prime divisors!"),!.
-extraPrimeDiv(N,CurX,X):-	(0 is N mod CurX,primeNumber(CurX) -> X=CurX;
-				NewX is CurX-1,extraPrimeDiv(N,NewX,X)).
-primeDiv(N,X):-(primeNumber(N) -> X=N;CurX is N div 2, extraPrimeDiv(N,CurX,X)). 
+% extraPrimeDiv(_,0,_):-write("Number has no prime divisors!"),!.
+% extraPrimeDiv(N,CurX,X):-	(0 is N mod CurX,primeNumber(CurX) -> X=CurX;
+%				NewX is CurX-1,extraPrimeDiv(N,NewX,X)).
+% primeDiv(N,X):-(primeNumber(N) -> X=N;CurX is N div 2, extraPrimeDiv(N,CurX,X)).
+
+% task 3.14.9 -	максимальный простой делитель числа (через рекурсию вверх)
+% *+ условие, что числа не могут быть отрицательными*
+extraPrimeDiv(_,1,2):-!.
+extraPrimeDiv(N,CurX,X):-	NextX is CurX-1,extraPrimeDiv(N,NextX,NewX),
+				(0 is N mod CurX, primeNumber(CurX) -> X=CurX;X=NewX).
+primeDiv(N,X):-	((N=:=0;N=:=1;N<0) -> write("Number has no prime (and posivive) divisors!");
+		extraPrimeDiv(N,N,X)).
