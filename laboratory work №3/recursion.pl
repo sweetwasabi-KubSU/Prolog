@@ -90,3 +90,9 @@ extraNumDivs(N,D,X):-	CurD is D-1,extraNumDivs(N,CurD,CurX),
 			Reminder is N mod D,
 			(Reminder=:=0 -> X is CurX+1;X is CurX).
 numDivs(N,X):-(N=:=0 -> X=0;extraNumDivs(N,N,X)).
+
+% task 3.14.9 -	максимальный простой делитель числа (через рекурсию вниз)
+extraPrimeDiv(_,0,_):-write("Number has no prime divisors!"),!.
+extraPrimeDiv(N,CurX,X):-	(0 is N mod CurX,primeNumber(CurX) -> X=CurX;
+				NewX is CurX-1,extraPrimeDiv(N,NewX,X)).
+primeDiv(N,X):-(primeNumber(N) -> X=N;CurX is N div 2, extraPrimeDiv(N,CurX,X)). 
