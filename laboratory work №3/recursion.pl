@@ -52,7 +52,7 @@ sumDigits(N,X):-extraSumDigits(N,0,X).
 extraMinDigit(N,MinX,X):-	CurX is N mod 10,CurN is N div 10,
 				(CurX<MinX -> NewMinX is CurX;NewMinX is MinX),
 				(CurN=:=0 -> X=NewMinX;extraMinDigit(CurN,NewMinX,X)).
-minDigit(N,X):-	extraMinDigit(N,N,X).
+minDigit(N,X):-extraMinDigit(N,N,X).
 
 % task 3.11.9 - произведение цифр числа, не делящихся на 5 (через рекурсию вверх)
 % примечание:	не покрывает случай, когда число состоит только из комбинации пятёрок и нулей,
@@ -75,9 +75,10 @@ numberOfDigits(N,X):-	CurX is N mod 10,CurN is N div 10,
 			(CurX<3 -> X is NewCurX+1;X=NewCurX).
 
 % task 3.*12 - НОД двух чисел (алгоритм евклида через вычитание и рекурсию вниз)
-numbersGCD(A,0,A):-!.
-numbersGCD(A,B,X):-	(A>B -> Min is B,Reminder is A-B;Min is A,Reminder is B-A),
-			numbersGCD(Min,Reminder,X).
+extraNumbersGCD(A,0,A):-!.
+extraNumbersGCD(A,B,X):-	(A>B -> Min is B,Reminder is A-B;Min is A,Reminder is B-A),
+				extraNumbersGCD(Min,Reminder,X).
+numbersGCD(A,B,X):-((A=:=0;B=:=0) -> writeln("Incorrect: A=0 or B=0!");extraNumbersGCD(A,B,X)).
 
 % task 3.*12 - проверка числа на простоту (через рекурсию вниз)
 extraPrimeNumber(N,X):-	(X>N div 2 -> !;Reminder is N mod X,
@@ -101,6 +102,34 @@ numDivs(N,X):-(N=:=0 -> X=0;extraNumDivs(N,N,X)).
 % *+ условие, что числа не могут быть отрицательными*
 extraPrimeDiv(_,1,2):-!.
 extraPrimeDiv(N,CurX,X):-	NextX is CurX-1,extraPrimeDiv(N,NextX,NewX),
-				(0 is N mod CurX, primeNumber(CurX) -> X=CurX;X=NewX).
+				(0 is N mod CurX,primeNumber(CurX) -> X=CurX;X=NewX).
 primeDiv(N,X):-	((N=:=0;N=:=1;N<0) -> write("Number has no prime (and posivive) divisors!");
-		extraPrimeDiv(N,N,X)).
+		extraPrimeDiv(N,N,X)).	
+
+% task 3.15.9 - НОД максимального нечетного непростого делителя числа
+%		и прозведения цифр данного числа
+
+% 1) для определения нечётного числа
+oddNum(N):-Reminder is N mod 2,Reminder=\=0.
+
+% 2) для определения непростого числа
+notPrimeNum(N):-not(primeNumber(N)).
+
+% 3) для поиска максимального нечётного непростого делителя (через рекурсию вверх)
+% *будем считать, что максимальный делитель нуля - он сам*
+extraMaxDiv(_,1,1):-!.
+extraMaxDiv(N,CurX,X):-	NewX is CurX-1,extraMaxDiv(N,NewX,Max),
+			(0 is N mod CurX,oddNum(CurX),notPrimeNum(CurX) -> X=CurX;X=Max).
+maxDiv(N,X):-(N=:=0 -> X=0; extraMaxDiv(N,N,X)).
+
+% 4) для подсчёта произведения цифр числа (через рекурсию вверх)
+extraMultDigs(0,1):-!.
+extraMultDigs(N,X):-	CurX is N mod 10,CurN is N div 10,
+			extraMultDigs(CurN,NewX),X is CurX*NewX.
+multDigs(N,X):-(N=:=0 -> X=0;extraMultDigs(N,X)).
+
+% 5) НОД максимального нечетного непростого делителя числа и прозведения цифр данного числа
+predicate15(N,X):-	maxDiv(N,A),multDigs(N,B),
+			numbersGCD(A,B,X),
+			write("A = "),writeln(A),
+			write("B = "),writeln(B).
