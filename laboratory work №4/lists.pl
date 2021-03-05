@@ -13,6 +13,7 @@ readList(N,L):-	writeln("set the list: "),readList(N,0,[],L).
 readList(L):-	write("set the list size: "),read(N),
 		writeln("set the list: "),readList(N,0,[],L).
 
+readList(0,_,_,[]):-fail,!.
 readList(N,N,CurList,CurList):-!.
 readList(N,CurN,CurList,L):-	NewN is CurN+1,read(Y),
 				appendList(CurList,[Y],NewList),
@@ -69,3 +70,10 @@ min_list_up([],_):-fail,!.
 min_list_up([H],H):-!.
 min_list_up([H|T],Min):-	min_list_up(T,CurMin),
 				(H<CurMin -> Min=H;Min=CurMin).
+
+% task 4.7 - найти минимальный элемент списка (через рекурсию вниз)
+% *+ проверка на правильность*
+min_list_down([],CurMin,CurMin):-!.
+min_list_down([H|T],CurMin,Min):-	(H<CurMin -> NewMin=H;NewMin=CurMin),
+					min_list_down(T,NewMin,Min).
+min_list_down([H|T],Min):-min_list_down(T,H,Min).
