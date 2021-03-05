@@ -45,9 +45,17 @@ list_el_numb([_|T],Elem,CurNum,Num):-	NewNum is CurNum+1,
 list_el_numb(List,Elem,Num):-list_el_numb(List,Elem,1,Num).
 
 % task 4.*4 - чтение списка, чтение элемента
-% найти первое вхождение элемента в списке
+% найти номер первого вхождения элемента в список
 predicate4:-	readList(List),
 		write("set the item: "),read(Item),
 		(list_el_numb(List,Item,Number) ->
 		write("first item number: "),write(Number);
 		write("sorry: item isn't in the list!")).
+
+% task 4.5 - чтение списка, чтение номера 
+% найти по номеру элемент в списке
+predicate5:-	readList(List),
+		write("set the number: "),read(Number),
+		(list_el_numb(List,Item,Number) ->
+		write("item by number: "),write(Item);
+		write("sorry: item with this number isn't in the list!")).
