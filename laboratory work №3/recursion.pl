@@ -13,10 +13,10 @@ max(_,_,U,U).
 %		X is CurX*N.
 
 % task 3.4 - факториал (через рекурсию вниз)
-extraFact(1,CurX,CurX):-!.
-extraFact(N,CurX,X):-	NewX is CurX*N,CurN is N-1,
-			extraFact(CurN,NewX,X).
-fact(N,X):-extraFact(N,1,X).
+fact(1,CurX,CurX):-!.
+fact(N,CurX,X):-	NewX is CurX*N,CurN is N-1,
+			fact(CurN,NewX,X).
+fact(N,X):-fact(N,1,X).
 
 % task 3.5 - фибоначчи (через рекурсию вверх)
 % fib(1,1):-!.
@@ -26,11 +26,11 @@ fact(N,X):-extraFact(N,1,X).
 %		X is X1+X2.
 
 % task 3.6 - фибоначчи (через рекурсию вниз)
-extraFib(1,_,NextX,NextX):-!.
-extraFib(2,_,NextX,NextX):-!.
-extraFib(N,PrevX,NextX,X):-	CurX is PrevX+NextX,CurN is N-1,
-				extraFib(CurN,NextX,CurX,X).
-fib(N,X):-extraFib(N,1,1,X).
+fib(1,_,NextX,NextX):-!.
+fib(2,_,NextX,NextX):-!.
+fib(N,PrevX,NextX,X):-	CurX is PrevX+NextX,CurN is N-1,
+			fib(CurN,NextX,CurX,X).
+fib(N,X):-fib(N,1,1,X).
 
 % task 3.7 - сумма цифр числа (через рекурсию вверх)
 % sumDigits(0,0):-!.
@@ -38,10 +38,10 @@ fib(N,X):-extraFib(N,1,1,X).
 %			X is CurX + N mod 10.
 
 % task 3.8 - сумма цифр числа (через рекурсию вниз)
-extraSumDigits(0,CurX,CurX):-!.
-extraSumDigits(N,CurX,X):-	NewX is CurX + N mod 10,CurN is N div 10,
-				extraSumDigits(CurN,NewX,X).
-sumDigits(N,X):-extraSumDigits(N,0,X).
+sumDigits(0,CurX,CurX):-!.
+sumDigits(N,CurX,X):-	NewX is CurX + N mod 10,CurN is N div 10,
+			sumDigits(CurN,NewX,X).
+sumDigits(N,X):-sumDigits(N,0,X).
 
 % task 3.9.9 - минимальная цифра числа (через рекурсию вверх)
 % minDigit(N,X):-	CurX is N mod 10,CurN is N div 10,
@@ -49,10 +49,10 @@ sumDigits(N,X):-extraSumDigits(N,0,X).
 %			(CurX<MinX -> X=CurX;X=MinX).
 
 % task 3.10.9 - минимальная цифра числа (через рекурсию вниз)
-extraMinDigit(N,MinX,X):-	CurX is N mod 10,CurN is N div 10,
-				(CurX<MinX -> NewMinX is CurX;NewMinX is MinX),
-				(CurN=:=0 -> X=NewMinX;extraMinDigit(CurN,NewMinX,X)).
-minDigit(N,X):-extraMinDigit(N,N,X).
+minDigit(N,MinX,X):-	CurX is N mod 10,CurN is N div 10,
+			(CurX<MinX -> NewMinX is CurX;NewMinX is MinX),
+			(CurN=:=0 -> X=NewMinX;minDigit(CurN,NewMinX,X)).
+minDigit(N,X):-minDigit(N,N,X).
 
 % task 3.11.9 - произведение цифр числа, не делящихся на 5 (через рекурсию вверх)
 % примечание:	не покрывает случай, когда число состоит только из комбинации пятёрок и нулей,
@@ -64,10 +64,10 @@ minDigit(N,X):-extraMinDigit(N,N,X).
 
 % task 3.11.9 - произведение цифр числа, не делящихся на 5 (через рекурсию вниз)
 % 		*сохраняется предыдущее примечение*
-extraMultDigits(N,MultX,X):-	CurX is N mod 10,CurN is N div 10,Reminder is CurX mod 5,
-				(Reminder=:=0 -> NewMultX is MultX;NewMultX is CurX*MultX),
-				(CurN=:=0 -> X is NewMultX;extraMultDigits(CurN,NewMultX,X)).
-multDigits(N,X):-(N=:=0 -> X is 0;extraMultDigits(N,1,X)).
+multDigits(N,MultX,X):-	CurX is N mod 10,CurN is N div 10,Reminder is CurX mod 5,
+			(Reminder=:=0 -> NewMultX is MultX;NewMultX is CurX*MultX),
+			(CurN=:=0 -> X is NewMultX;multDigits(CurN,NewMultX,X)).
+multDigits(N,X):-(N=:=0 -> X is 0;multDigits(N,1,X)).
 
 % task 3.12 - количество цифр числа, меньших 3 (через рекурсию вверх)
 numberOfDigits(N,X):-	CurX is N mod 10,CurN is N div 10,
@@ -81,16 +81,16 @@ extraNumbersGCD(A,B,X):-	(A>B -> Min is B,Reminder is A-B;Min is A,Reminder is B
 numbersGCD(A,B,X):-((A=:=0;B=:=0) -> writeln("Incorrect: A=0 or B=0!");extraNumbersGCD(A,B,X)).
 
 % task 3.*12 - проверка числа на простоту (через рекурсию вниз)
-extraPrimeNumber(N,X):-	(X>N div 2 -> !;Reminder is N mod X,
-			(Reminder=:=0 -> fail;CurX is X+1,extraPrimeNumber(N,CurX))).
-primeNumber(N):-((N=:=0;N=:=1) -> fail;extraPrimeNumber(N,2)).
+primeNumber(N,X):-	(X>N div 2 -> !;Reminder is N mod X,
+			(Reminder=:=0 -> fail;CurX is X+1,primeNumber(N,CurX))).
+primeNumber(N):-((N=:=0;N=:=1) -> fail;primeNumber(N,2)).
 
 % task 3.*12 - количество делителей числа (через рекурсию вверх)
-extraNumDivs(_,1,1):-!.
-extraNumDivs(N,D,X):-	CurD is D-1,extraNumDivs(N,CurD,CurX),
+numDivs(_,1,1):-!.
+numDivs(N,D,X):-	CurD is D-1,numDivs(N,CurD,CurX),
 			Reminder is N mod D,
 			(Reminder=:=0 -> X is CurX+1;X is CurX).
-numDivs(N,X):-(N=:=0 -> X=0;extraNumDivs(N,N,X)).
+numDivs(N,X):-(N=:=0 -> X=0;numDivs(N,N,X)).
 
 % task 3.13 -	*итерационная последовательность (гипотеза коллатца)*
 %		найти стартовый номер, менее одного миллиона с самой длинной цепочкой
@@ -108,18 +108,18 @@ collatzIterating(N,MaxN,MaxX):-	CurN is N-1,collatzIterating(CurN,NewN,NewX),ext
 collatz(Number,Length):-collatzIterating(1000000,Number,Length).
 
 % task 3.14.9 -	максимальный простой делитель числа (через рекурсию вниз)
-% extraPrimeDiv(_,0,_):-write("Number has no prime divisors!"),!.
-% extraPrimeDiv(N,CurX,X):-	(0 is N mod CurX,primeNumber(CurX) -> X=CurX;
-%				NewX is CurX-1,extraPrimeDiv(N,NewX,X)).
-% primeDiv(N,X):-(primeNumber(N) -> X=N;CurX is N div 2, extraPrimeDiv(N,CurX,X)).
+% primeDiv(_,0,_):-write("Number has no prime divisors!"),!.
+% primeDiv(N,CurX,X):-	(0 is N mod CurX,primeNumber(CurX) -> X=CurX;
+%			NewX is CurX-1,primeDiv(N,NewX,X)).
+% primeDiv(N,X):-(primeNumber(N) -> X=N;CurX is N div 2, primeDiv(N,CurX,X)).
 
 % task 3.14.9 -	максимальный простой делитель числа (через рекурсию вверх)
 % *+ условие, что числа не могут быть отрицательными*
-extraPrimeDiv(_,1,2):-!.
-extraPrimeDiv(N,CurX,X):-	NextX is CurX-1,extraPrimeDiv(N,NextX,NewX),
-				(0 is N mod CurX,primeNumber(CurX) -> X=CurX;X=NewX).
+primeDiv(_,1,2):-!.
+primeDiv(N,CurX,X):-	NextX is CurX-1,primeDiv(N,NextX,NewX),
+			(0 is N mod CurX,primeNumber(CurX) -> X=CurX;X=NewX).
 primeDiv(N,X):-	((N=:=0;N=:=1;N<0) -> write("Number has no prime (and posivive) divisors!");
-		extraPrimeDiv(N,N,X)).	
+		primeDiv(N,N,X)).
 
 % task 3.15.9 - НОД максимального нечетного непростого делителя числа
 %		и прозведения цифр данного числа
@@ -132,10 +132,10 @@ notPrimeNum(N):-not(primeNumber(N)).
 
 % 3) для поиска максимального нечётного непростого делителя (через рекурсию вверх)
 % *будем считать, что максимальный делитель нуля - он сам*
-extraMaxDiv(_,1,1):-!.
-extraMaxDiv(N,CurX,X):-	NewX is CurX-1,extraMaxDiv(N,NewX,Max),
+maxDiv(_,1,1):-!.
+maxDiv(N,CurX,X):-	NewX is CurX-1,maxDiv(N,NewX,Max),
 			(0 is N mod CurX,oddNum(CurX),notPrimeNum(CurX) -> X=CurX;X=Max).
-maxDiv(N,X):-(N=:=0 -> X=0; extraMaxDiv(N,N,X)).
+maxDiv(N,X):-(N=:=0 -> X=0;maxDiv(N,N,X)).
 
 % 4) для подсчёта произведения цифр числа (через рекурсию вверх)
 extraMultDigs(0,1):-!.
@@ -148,3 +148,6 @@ predicate15(N,X):-	maxDiv(N,A),multDigs(N,B),
 			numbersGCD(A,B,X),
 			write("A = "),writeln(A),
 			write("B = "),writeln(B).
+
+% task 3.16.9 - наибольшее количество пифагоровых троек для p < 1000
+% *this task isn't done yet*
