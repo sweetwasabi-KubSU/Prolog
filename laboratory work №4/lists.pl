@@ -22,15 +22,24 @@ writeList([]):-!.
 writeList([H|T]):-writeln(H),writeList(T).
 
 % task 4.2 - сумма элементов списка (через рекурсию вниз)
-% *если Sum - инициализирована, то проверить, правильно ли*
+% если Sum - инициализирована, то проверить, правильно ли
 sum_list_down([],CurSum,CurSum):-!.
 sum_list_down([H|T],CurSum,Sum):-	NewSum is CurSum+H,
 					sum_list_down(T,NewSum,Sum).
 sum_list_down(List,Sum):-	readList(List),
 				sum_list_down(List,0,Sum).
 
-% task 4.3 - сумма элементов списка (через рекурсию вверх)
-% *если Sum - инициализирована, то проверить, правильно ли*
+% task 4.3 - сумма элементов списка (через рекурсию вверх),
+% если Sum - инициализирована, то проверить, правильно ли
 sum_list_up([],0):-!.
 sum_list_up([H|T],Sum):-	sum_list_up(T,CurSum),
 				Sum is CurSum+H.
+
+% task 4.4 - если дан Elem - запись в Num номер первого вхождения
+% если дан Num - запись в Elem значения по этому номеру
+% если даны Elem и Num - проверить, правильно ли
+list_el_numb([],_,_,_):-fail,!.
+list_el_numb([H|_],H,CurNum,CurNum):-!.
+list_el_numb([_|T],Elem,CurNum,Num):-	NewNum is CurNum+1,
+					list_el_numb(T,Elem,NewNum,Num).
+list_el_numb(List,Elem,Num):-list_el_numb(List,Elem,1,Num).
