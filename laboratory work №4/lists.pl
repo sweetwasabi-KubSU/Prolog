@@ -82,3 +82,7 @@ min_list_down([H|T],Min):-min_list_down(T,H,Min).
 predicate8:-	readList(List),
 		(min_list_up(List,Min) ->
 		write("min = "),write(Min)).
+
+% task 4.9 - проверить, есть ли в списке заданный элемент
+member([X|_],X):-!.
+member([_|T],X):-member(T,X).
