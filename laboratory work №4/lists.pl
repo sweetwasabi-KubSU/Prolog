@@ -86,3 +86,8 @@ predicate8:-	readList(List),
 % task 4.9 - проверить, есть ли в списке заданный элемент
 member([X|_],X):-!.
 member([_|T],X):-member(T,X).
+
+% task 4.10 - перевернуть список
+reverse([],CurList,CurList):-!.
+reverse([H|T],CurList,InvList):-reverse(T,[H|CurList],InvList).
+reverse(List,InvList):-reverse(List,[],InvList).
