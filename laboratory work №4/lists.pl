@@ -91,3 +91,8 @@ member([_|T],X):-member(T,X).
 reverse([],CurList,CurList):-!.
 reverse([H|T],CurList,InvList):-reverse(T,[H|CurList],InvList).
 reverse(List,InvList):-reverse(List,[],InvList).
+
+% task 4.11 - проверить, встречаются ли элементы Sublist в List в том же порядке
+list_same_order([],_):-!.
+list_same_order([H|T1],[H|T2]):-list_same_order(T1,T2),!.	
+list_same_order(Sublist,[_|T]):-list_same_order(Sublist,T).
