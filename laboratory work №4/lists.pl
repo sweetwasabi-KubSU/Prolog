@@ -96,3 +96,10 @@ reverse(List,InvList):-reverse(List,[],InvList).
 list_same_order([],_):-!.
 list_same_order([H|T1],[H|T2]):-list_same_order(T1,T2),!.	
 list_same_order(Sublist,[_|T]):-list_same_order(Sublist,T).
+
+% task 4.12 - удалить элемент с заданным номером
+list_delete_item([_|T],CurList,ResList,CurN,CurN):-	appendList(CurList,T,ResList),!.
+list_delete_item([H|T],CurList,ResList,CurN,N):-	appendList(CurList,[H],NewList),
+							NewN is CurN+1,
+							list_delete_item(T,NewList,ResList,NewN,N).
+list_delete_item(List,ResList,N):-list_delete_item(List,[],ResList,1,N).
