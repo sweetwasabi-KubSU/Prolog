@@ -110,3 +110,9 @@ list_delete_equal([H|T],CurList,ResList,H):-	list_delete_equal(T,CurList,ResList
 list_delete_equal([H|T],CurList,ResList,X):-	appendList(CurList,[H],NewList),
 						list_delete_equal(T,NewList,ResList,X).	
 list_delete_equal(List,ResList,X):-list_delete_equal(List,[],ResList,X).
+
+% task 4.14 - проверить, встречаются ли все элементы только один раз
+unique([]):-!.
+unique([H|T]):-	not(member(T,H)),
+		unique(T).
+		
