@@ -103,3 +103,10 @@ list_delete_item([H|T],CurList,ResList,CurN,N):-	appendList(CurList,[H],NewList)
 							NewN is CurN+1,
 							list_delete_item(T,NewList,ResList,NewN,N).
 list_delete_item(List,ResList,N):-list_delete_item(List,[],ResList,1,N).
+
+% task 4.13 - удалить все элементы равные данному
+list_delete_equal([],CurList,CurList,_):-!.
+list_delete_equal([H|T],CurList,ResList,H):-	list_delete_equal(T,CurList,ResList,H),!.
+list_delete_equal([H|T],CurList,ResList,X):-	appendList(CurList,[H],NewList),
+						list_delete_equal(T,NewList,ResList,X).	
+list_delete_equal(List,ResList,X):-list_delete_equal(List,[],ResList,X).
