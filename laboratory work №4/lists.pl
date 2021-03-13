@@ -132,3 +132,18 @@ number_times([_|T],X,N):-	number_times(T,X,N).
 list_length([],0):-!.
 list_length([_|T],X):-	list_length(T,CurX),
 			X is CurX+1.
+
+% TASK 18.9: 9, 10, 21, 23, 33, 36, 39, 45, 57
+
+% task 18.9 - найти элементы, расположенные перед последним минимальным
+predicate9(ResList):-	readList(List),
+			min_list_up(List,Min),
+			list_el_numb(List,Min,Num),
+			build_list(List,ResList,Num).
+
+% собирает в новый список элементы до заданного номера
+build_list(_,CurList,CurList,0):-!.
+build_list([H|T],CurList,ResList,Num):-	appendList(CurList,[H],NewList),
+					CurNum is Num-1,
+					build_list(T,NewList,ResList,CurNum).
+build_list(List,ResList,Num):-build_list(List,[],ResList,Num).
