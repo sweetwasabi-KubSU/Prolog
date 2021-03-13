@@ -115,4 +115,15 @@ list_delete_equal(List,ResList,X):-list_delete_equal(List,[],ResList,X).
 unique([]):-!.
 unique([H|T]):-	not(member(T,H)),
 		unique(T).
-		
+
+% task 4.15 - убрать повторяющиеся элементы из списка
+% unique_list([],CurList,CurList):-!.
+% unique_list([H|T],CurList,ResList):-	(not(member(CurList,H)) ->
+%					appendList(CurList,[H],NewList);NewList=CurList),
+%					unique_list(T,NewList,ResList).
+% unique_list(List,ResList):-unique_list(List,[],ResList).
+
+unique_list([],[]):-!.
+unique_list([H|T],ResList):-	list_delete_equal(T,NewList,H),
+				unique_list(NewList,CurList),
+				appendList([H],CurList,ResList).
