@@ -117,13 +117,13 @@ unique([H|T]):-	not(member(T,H)),
 		unique(T).
 
 % task 4.15 - убрать повторяющиеся элементы из списка
-% unique_list([],CurList,CurList):-!.
-% unique_list([H|T],CurList,ResList):-	(not(member(CurList,H)) ->
-%					appendList(CurList,[H],NewList);NewList=CurList),
-%					unique_list(T,NewList,ResList).
-% unique_list(List,ResList):-unique_list(List,[],ResList).
-
 unique_list([],[]):-!.
 unique_list([H|T],ResList):-	list_delete_equal(T,NewList,H),
 				unique_list(NewList,CurList),
 				appendList([H],CurList,ResList).
+
+% task 4.16 - посчитать сколько раз встречается элемент в списке
+number_times([],0,_):-!.
+number_times([H|T],X,H):-	number_times(T,CurX,H),
+				X is CurX+1,!.
+number_times([_|T],X,N):-	number_times(T,X,N).
