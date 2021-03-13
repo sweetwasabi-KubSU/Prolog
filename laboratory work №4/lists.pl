@@ -127,3 +127,8 @@ number_times([],0,_):-!.
 number_times([H|T],X,H):-	number_times(T,CurX,H),
 				X is CurX+1,!.
 number_times([_|T],X,N):-	number_times(T,X,N).
+
+% task 4.17 - посчитать длину списка
+list_length([],0):-!.
+list_length([_|T],X):-	list_length(T,CurX),
+			X is CurX+1.
