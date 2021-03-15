@@ -169,3 +169,23 @@ match_by_value([H|T],L2,CurCount,Count):-	(list_el_numb(L2,H,Num) ->
 						CurL2=L2,NewCount=CurCount),
 						match_by_value(T,CurL2,NewCount,Count).
 match_by_value(L1,L2,Count):-match_by_value(L1,L2,0,Count).
+
+% task 4.18.21 - найти элементы, расположенные после первого максимального
+
+predicate21(ResList):-	readList(List),
+			max_list_down(List,Max),
+			list_el_numb(List,Max,Num),
+			build_list_after(List,ResList,Num).
+
+% нахождение максимального элемента в списке
+max_list_down([],CurMax,CurMax):-!.
+max_list_down([H|T],CurMax,Max):-	(H>CurMax -> NewMax=H;NewMax=CurMax),
+					max_list_down(T,NewMax,Max).
+max_list_down([H|T],Max):-max_list_down(T,H,Max).
+
+% собирает в новый список элементы после заданного номера (через рекурсию вниз)
+build_list_after([],CurL,CurL,_):-!.
+build_list_after([H|T],CurL,ResL,N):-	NewN is N-1,
+					(NewN<0 -> appendList(CurL,[H],NewL);NewL=CurL),
+					build_list_after(T,NewL,ResL,NewN).
+build_list_after(L,ResL,N):-build_list_after(L,[],ResL,N).
