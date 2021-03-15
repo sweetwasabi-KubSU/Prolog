@@ -250,3 +250,14 @@ build_interval([H|T],Interval,N,A,B):-	CurN is N+1,build_interval(T,CurInterval,
 					(CurN>A,CurN<B -> appendList([H],CurInterval,Interval);
 					Interval=CurInterval).
 build_interval(List,Interval,A,B):-build_interval(List,Interval,0,A,B).
+
+% task 4.18.57 (9/9) - найти количество элементов, бОльших суммы всех предыдущих
+% первый элемент не считается, так как до него нет других элементов 
+predicate57(Count):-	readList(List),
+			more_sum_previous(List,Count).
+
+% считает количество элементов, бОльших суммы всех предыдущих 
+more_sum_previous([],_,CurCount,CurCount):-!.
+more_sum_previous([H|T],Sum,CurCount,Count):-	(H>Sum -> NewCount is CurCount+1;NewCount=CurCount),
+						CurSum is Sum+H,more_sum_previous(T,CurSum,NewCount,Count).
+more_sum_previous([H|T],Count):-more_sum_previous(T,H,0,Count).
