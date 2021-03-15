@@ -236,3 +236,17 @@ print_odd([H|T],1):-	write(H),write(" "),
 			print_odd(T,2),!.
 print_odd([_|T],2):-	print_odd(T,1),!.
 print_odd(List):-	print_odd(List,1).
+
+% task 4.18.45 (8/9) - найти сумму элементов из интервала (a,b)
+predicate45(Sum):-	readList(List),
+			write("A = "),read(A),
+			write("B = "),read(B),
+			build_interval(List,Interval,A,B),
+			sum_list_up(Interval,Sum).
+
+% собирает в новый список элементы из заданного интервала
+build_interval([],[],_,_,_):-!.
+build_interval([H|T],Interval,N,A,B):-	CurN is N+1,build_interval(T,CurInterval,CurN,A,B),
+					(CurN>A,CurN<B -> appendList([H],CurInterval,Interval);
+					Interval=CurInterval).
+build_interval(List,Interval,A,B):-build_interval(List,Interval,0,A,B).
