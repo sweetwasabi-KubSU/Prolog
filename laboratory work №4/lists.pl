@@ -195,3 +195,13 @@ predicate23(Min1,Min2):-	readList(List),
 				list_el_numb(List,Min1,Num),
 				list_delete_item(List,CurList,Num),
 				min_list_down(CurList,Min2).
+
+% task 4.18.33 (5/9) - проверить, чередуются ли положительные и отрицательные числа
+predicate33:-	readList(List),
+		alternating(List).
+
+alternating([],_):-!.
+alternating([H|T],1):-	H>0,alternating(T,-1),!.
+alternating([H|T],-1):-	H<0,alternating(T,1),!.
+alternating([H|T]):-	(H>0 -> F=(-1);F=1),
+			alternating(T,F).
