@@ -217,3 +217,22 @@ odd_max([H|T],CurMax,Max):-	(H>CurMax,1 is H mod 2 -> NewMax=H;NewMax=CurMax),
 				odd_max(T,NewMax,Max).
 odd_max(List,Max):-	min_list_up(List,CurMax),
 			odd_max(List,CurMax,Max).
+
+% task 4.18.39 (7/9) - вывести вначале его элементы с четными индексами, а затем - с нечетными
+predicate39:-	readList(List),
+		write("even index: "),print_even(List),nl,
+		write("odd index: "),print_odd(List).
+
+% печатает элементы с чётным индексом
+print_even([],_):-!.
+print_even([_|T],1):-	print_even(T,2),!.
+print_even([H|T],2):-	write(H),write(" "),
+			print_even(T,1),!.
+print_even(List):-	print_even(List,1).
+
+% печатает элементы с нечётным индексом
+print_odd([],_):-!.
+print_odd([H|T],1):-	write(H),write(" "),
+			print_odd(T,2),!.
+print_odd([_|T],2):-	print_odd(T,1),!.
+print_odd(List):-	print_odd(List,1).
