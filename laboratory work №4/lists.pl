@@ -200,8 +200,20 @@ predicate23(Min1,Min2):-	readList(List),
 predicate33:-	readList(List),
 		alternating(List).
 
+% проверяет, чередуются ли положительные и отрицательные
 alternating([],_):-!.
 alternating([H|T],1):-	H>0,alternating(T,-1),!.
 alternating([H|T],-1):-	H<0,alternating(T,1),!.
 alternating([H|T]):-	(H>0 -> F=(-1);F=1),
 			alternating(T,F).
+
+% task 4.18.36 (6/9) - найти максимальный нечетный элемент
+predicate36(Max):-	readList(List),
+			odd_max(List,Max).
+
+% находит максимальный нечётный элемент
+odd_max([],CurMax,CurMax):-	1 is CurMax mod 2,!.
+odd_max([H|T],CurMax,Max):-	(H>CurMax,1 is H mod 2 -> NewMax=H;NewMax=CurMax),
+				odd_max(T,NewMax,Max).
+odd_max(List,Max):-	min_list_up(List,CurMax),
+			odd_max(List,CurMax,Max).
