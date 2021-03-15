@@ -135,7 +135,7 @@ list_length([_|T],X):-	list_length(T,CurX),
 
 % TASK 18.9: 9, 10, 21, 23, 33, 36, 39, 45, 57
 
-% task 18.9 - найти элементы, расположенные перед последним минимальным
+% task 4.18.9 - найти элементы, расположенные перед последним минимальным
 predicate9(ResList):-	readList(List),
 			min_list_up(List,Min),
 			list_el_numb(List,Min,Num),
@@ -147,3 +147,17 @@ build_list([H|T],CurList,ResList,Num):-	appendList(CurList,[H],NewList),
 					CurNum is Num-1,
 					build_list(T,NewList,ResList,CurNum).
 build_list(List,ResList,Num):-build_list(List,[],ResList,Num).
+
+% task 4.18.10 - два массива: найти количество, совпадающих по значению элементов
+
+predicate10(Count):-	readList(L1),
+			readList(L2),
+			match_by_value(L1,L2,Count).
+
+% считает количество пар элементов, совпадающих по значению (через рекурсию вниз)
+match_by_value([],_,CurCount,CurCount):-!.
+match_by_value([H|T],L2,CurCount,Count):-	(list_el_numb(L2,H,Num) ->
+						list_delete_item(L2,CurL2,Num),NewCount is CurCount+1;
+						CurL2=L2,NewCount=CurCount),
+						match_by_value(T,CurL2,NewCount,Count).
+match_by_value(L1,L2,Count):-match_by_value(L1,L2,0,Count).
