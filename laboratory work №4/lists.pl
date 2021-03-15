@@ -46,6 +46,14 @@ list_el_numb([_|T],Elem,CurNum,Num):-	NewNum is CurNum+1,
 					list_el_numb(T,Elem,NewNum,Num).
 list_el_numb(List,Elem,Num):-list_el_numb(List,Elem,1,Num).
 
+% последнее вхождение (через рекурсию вверх)
+% reverse (task 4.10)
+% list_length (task 4.17)
+list_el_numb_last(List,Elem,Num):-	reverse(List,InvList),
+					list_el_numb(InvList,Elem,CurNum),
+					list_length(List,Length),
+					Num is Length-CurNum+1.
+
 % task 4.*4 - чтение списка, чтение элемента
 % найти номер первого вхождения элемента в список
 % *+ проверка на правильность*
@@ -138,11 +146,11 @@ list_length([_|T],X):-	list_length(T,CurX),
 % task 4.18.9 - найти элементы, расположенные перед последним минимальным
 predicate9(ResList):-	readList(List),
 			min_list_up(List,Min),
-			list_el_numb(List,Min,Num),
+			list_el_numb_last(List,Min,Num),
 			build_list(List,ResList,Num).
 
 % собирает в новый список элементы до заданного номера
-build_list(_,CurList,CurList,0):-!.
+build_list(_,CurList,CurList,1):-!.
 build_list([H|T],CurList,ResList,Num):-	appendList(CurList,[H],NewList),
 					CurNum is Num-1,
 					build_list(T,NewList,ResList,CurNum).
