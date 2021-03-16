@@ -1,5 +1,4 @@
 % task 5.1 - кто пьёт воду? кто держит зебру?
-
 predicate1:-	Houses=[_,_,_,_,_],
 
 		in_list(Houses,[red,english,_,_,_]),
@@ -28,16 +27,50 @@ predicate1:-	Houses=[_,_,_,_,_],
 		write(WHO2),writeln(" holds zebra"),nl.
 
 % task 5.2 - какой цвет волос у каждого из друзей?
-
-predicate2:-	Friends=[[belokurov,_],[ryzhov,_],[chernov,_]],
-
+predicate2:-	Friends=[_,_,_],
+		
+		% чтобы избежать перестановки одного и того же варианта
+		item_by_number(Friends,1,[belokurov,_]),
+		item_by_number(Friends,2,[ryzhov,_]),
+		item_by_number(Friends,3,[chernov,_]),
+		
 		in_list(Friends,[_,dark]),
 		in_list(Friends,[_,blonde]),
 		in_list(Friends,[_,red]),
+
 		not(in_list(Friends,[belokurov,dark])),
+
 		not(in_list(Friends,[belokurov,blonde])),
 		not(in_list(Friends,[ryzhov,red])),
 		not(in_list(Friends,[chernov,dark])),
 
 		nl,writeln("***FRIENDS***"),nl,
+		write_list(Friends),nl.
+
+% task 5.3 - oпределить цвета платья и туфель на каждой из подруг
+predicate3:-	Friends=[_,_,_],
+
+		item_by_number(Friends,1,[anya,_,_]),
+		item_by_number(Friends,2,[valya,_,_]),
+		item_by_number(Friends,3,[natasha,_,_]),
+
+		in_list(Friends,[_,white,_]),
+		in_list(Friends,[_,green,_]),
+		in_list(Friends,[_,blue,_]),
+
+		in_list(Friends,[_,_,white]),
+		in_list(Friends,[_,_,green]),
+		in_list(Friends,[_,_,blue]),
+
+		in_list(Friends,[anya,A,A]),
+		not(in_list(Friends,[valya,B,B])),
+		not(in_list(Friends,[natasha,C,C])),
+
+		not(in_list(Friends,[valya,white,_])),
+		not(in_list(Friends,[valya,_,white])),
+
+		in_list(Friends,[natasha,_,green]),
+
+		nl,writeln("***FRIENDS***"),nl,
+		writeln("*name,dress,shoes*"),nl,
 		write_list(Friends),nl.
