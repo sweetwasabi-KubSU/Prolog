@@ -1,4 +1,5 @@
 % task 5.1 - кто пьёт воду? кто держит зебру?
+% дом - страна - напиток - животное - сигареты
 predicate1:-	Houses=[_,_,_,_,_],
 
 		in_list(Houses,[red,english,_,_,_]),
@@ -20,6 +21,7 @@ predicate1:-	Houses=[_,_,_,_,_],
 		in_list(Houses,[_,WHO2,_,zebra,_]),
 		
 		nl,writeln("***HOUSES***"),nl,
+		writeln("*house,country,drink,animal,cigarettes*"),nl,
 		write_list(Houses),nl,
 		
 		nl,writeln("***ANSWERS***"),nl,
@@ -27,6 +29,7 @@ predicate1:-	Houses=[_,_,_,_,_],
 		write(WHO2),writeln(" holds zebra"),nl.
 
 % task 5.2 - какой цвет волос у каждого из друзей?
+% фамилия - волосы
 predicate2:-	Friends=[_,_,_],
 		
 		% чтобы избежать перестановки одного и того же варианта
@@ -45,9 +48,11 @@ predicate2:-	Friends=[_,_,_],
 		not(in_list(Friends,[chernov,dark])),
 
 		nl,writeln("***FRIENDS***"),nl,
+		writeln("*surname,hair*"),nl,
 		write_list(Friends),nl.
 
 % task 5.3 - oпределить цвета платья и туфель на каждой из подруг
+% имя - платье - туфли
 predicate3:-	Friends=[_,_,_],
 
 		item_by_number(Friends,1,[anya,_,_]),
@@ -73,4 +78,42 @@ predicate3:-	Friends=[_,_,_],
 
 		nl,writeln("***FRIENDS***"),nl,
 		writeln("*name,dress,shoes*"),nl,
+		write_list(Friends),nl.
+
+% task 5.4 - назвать фамилии слесаря, токаря и сварщика
+% фамилия - профессия - братья/cёстры
+predicate4:-	Friends=[_,_,_],
+		
+		in_list(Friends,[borisov,_,_]),
+		in_list(Friends,[ivanov,_,_]),
+		in_list(Friends,[semenov,_,_]),
+		
+		% locksmith	слесарь
+		% turner	токарь
+		% welder	сварщик
+
+		in_list(Friends,[_,locksmith,_]),
+		in_list(Friends,[_,turner,_]),
+		in_list(Friends,[_,welder,_]),
+
+		% "no"		нет братьев/сестёр
+		% "yes" 	есть братья/сёстры
+		% "unknown"	неизвестно
+
+		in_list(Friends,[_,_,"no"]),
+		in_list(Friends,[_,_,"yes"]),
+		in_list(Friends,[_,_,"unknown"]),
+
+		in_list(Friends,[_,locksmith,"no"]),
+		in_list(Friends,[borisov,_,"yes"]),
+		in_list(Friends,[semenov,_,"unknown"]),
+
+		% позиция - старшинство
+		item_by_number(Friends,1,[_,locksmith,_]),
+
+		not(in_list(Friends,[semenov,turner,_])),
+		right_next([_,turner,_],[semenov,_,_],Friends),
+
+		nl,writeln("***FRIENDS***"),nl,
+		writeln("*surname,profession,siblings*"),nl,
 		write_list(Friends),nl.
