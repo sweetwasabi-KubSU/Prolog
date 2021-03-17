@@ -108,12 +108,48 @@ predicate4:-	Friends=[_,_,_],
 		in_list(Friends,[borisov,_,"yes"]),
 		in_list(Friends,[semenov,_,"unknown"]),
 
+		not(in_list(Friends,[semenov,turner,_])),
+
 		% позиция - старшинство
 		item_by_number(Friends,1,[_,locksmith,_]),
-
-		not(in_list(Friends,[semenov,turner,_])),
 		right_next([_,turner,_],[semenov,_,_],Friends),
 
 		nl,writeln("***FRIENDS***"),nl,
 		writeln("*surname,profession,siblings*"),nl,
 		write_list(Friends),nl.
+
+% task 5.5 - как распределены жидкости по сосудам?
+% если рассматривать только расположение в ряд (а не в круг),
+% то при единственном возможном варианте молоко находится в банке
+% *из условия (противоречие): cтакан находится около банки и сосуда с молоком*
+% сосуд - жидкость
+predicate5:-	Vessels=[_,_,_,_],
+		
+		% jug	кувшин
+		% can	банка
+
+		in_list(Vessels,[bottle,_]),
+		in_list(Vessels,[glass,_]),
+		in_list(Vessels,[jug,_]),
+		in_list(Vessels,[can,_]),
+
+		in_list(Vessels,[_,milk]),
+		in_list(Vessels,[_,lemonade]),
+		in_list(Vessels,[_,kvass]),
+		in_list(Vessels,[_,water]),
+
+		not(in_list(Vessels,[bottle,water])),
+		not(in_list(Vessels,[bottle,milk])),
+
+		right_next([jug,_],[_,lemonade],Vessels),
+		right_next([_,lemonade],[_,kvass],Vessels),
+		
+		not(in_list(Vessels,[can,lemonade])),
+		not(in_list(Vessels,[can,water])),
+
+		next_to([glass,_],[can,_],Vessels),
+		next_to([glass,_],[_,milk],Vessels),
+
+		nl,writeln("***VESSELS***"),nl,
+		writeln("*vessel,liquid*"),nl,
+		write_list(Vessels),nl.
