@@ -1,6 +1,9 @@
 % task 5.1 - кто пьёт воду? кто держит зебру?
 % вывод: дом - страна - напиток - животное - сигареты
 
+% верный ответ:	норвежец пьёт воду
+%		японец держит зебру
+
 predicate1:-	Houses=[_,_,_,_,_],
 
 		in_list(Houses,[red,english,_,_,_]),
@@ -32,6 +35,10 @@ predicate1:-	Houses=[_,_,_,_,_],
 % task 5.2 - какой цвет волос у каждого из друзей?
 % вывод: фамилия - волосы
 
+% верный ответ:	белокуров	рыжие
+%		рыжов		брюнет
+%		чернов		блондин
+
 predicate2:-	Friends=[_,_,_],
 		
 		% чтобы избежать перестановки одного и того же варианта
@@ -56,11 +63,15 @@ predicate2:-	Friends=[_,_,_],
 % task 5.3 - oпределить цвета платья и туфель на каждой из подруг
 % вывод: имя - платье - туфли
 
+% верный ответ:	аня	белое платье	белые туфли
+% 		валя 	зеленое платье	синие туфли
+% 		наташа 	синие платье	зеленые туфли
+
 predicate3:-	Friends=[_,_,_],
 
-		item_by_number(Friends,1,[anya,_,_]),
+		item_by_number(Friends,1,[anya,A,A]),
 		item_by_number(Friends,2,[valya,_,_]),
-		item_by_number(Friends,3,[natasha,_,_]),
+		item_by_number(Friends,3,[natasha,_,green]),
 
 		in_list(Friends,[_,white,_]),
 		in_list(Friends,[_,green,_]),
@@ -70,14 +81,11 @@ predicate3:-	Friends=[_,_,_],
 		in_list(Friends,[_,_,green]),
 		in_list(Friends,[_,_,blue]),
 
-		in_list(Friends,[anya,A,A]),
 		not(in_list(Friends,[valya,B,B])),
 		not(in_list(Friends,[natasha,C,C])),
 
 		not(in_list(Friends,[valya,white,_])),
 		not(in_list(Friends,[valya,_,white])),
-
-		in_list(Friends,[natasha,_,green]),
 
 		nl,writeln("***FRIENDS***"),nl,
 		writeln("*name,dress,shoes*"),nl,
@@ -86,31 +94,27 @@ predicate3:-	Friends=[_,_,_],
 % task 5.4 - назвать фамилии слесаря, токаря и сварщика
 % вывод: фамилия - профессия - братья/cёстры
 
+% верный ответ:	иванов		слесарь
+%		борисов		токарь
+%		семёнов 	сварщик
+
 predicate4:-	Friends=[_,_,_],
+
+		% "no"		нет братьев/сестёр
+		% "yes" 	есть братья/сёстры
+		% "unknown"	неизвестно
 		
-		in_list(Friends,[borisov,_,_]),
+		in_list(Friends,[borisov,_,"yes"]),
 		in_list(Friends,[ivanov,_,_]),
-		in_list(Friends,[semenov,_,_]),
+		in_list(Friends,[semenov,_,"unknown"]),
 		
 		% locksmith	слесарь
 		% turner	токарь
 		% welder	сварщик
 
-		in_list(Friends,[_,locksmith,_]),
+		in_list(Friends,[_,locksmith,"no"]),
 		in_list(Friends,[_,turner,_]),
 		in_list(Friends,[_,welder,_]),
-
-		% "no"		нет братьев/сестёр
-		% "yes" 	есть братья/сёстры
-		% "unknown"	неизвестно
-
-		in_list(Friends,[_,_,"no"]),
-		in_list(Friends,[_,_,"yes"]),
-		in_list(Friends,[_,_,"unknown"]),
-
-		in_list(Friends,[_,locksmith,"no"]),
-		in_list(Friends,[borisov,_,"yes"]),
-		in_list(Friends,[semenov,_,"unknown"]),
 
 		not(in_list(Friends,[semenov,turner,_])),
 
@@ -125,9 +129,19 @@ predicate4:-	Friends=[_,_,_],
 % task 5.5 - как распределены жидкости по сосудам?
 % вывод: сосуд - жидкость
 
+% верный ответ:	кувшин		молоко
+%		бутылка		лимонад
+%		банка		квас
+%		стакан		вода
+
 % если рассматривать только расположение в ряд (а не в круг),
 % то при единственном возможном варианте молоко находится в банке
 % *из условия (противоречие): cтакан находится около банки и сосуда с молоком*
+
+% верный ответ в данном контексте:	кувшин		вода
+% 					бутылка		лимонад
+%					стакан		квас
+%					банка		молоко
 
 predicate5:-	Vessels=[_,_,_,_],
 		
