@@ -1,5 +1,6 @@
 % task 5.1 - кто пьёт воду? кто держит зебру?
-% дом - страна - напиток - животное - сигареты
+% вывод: дом - страна - напиток - животное - сигареты
+
 predicate1:-	Houses=[_,_,_,_,_],
 
 		in_list(Houses,[red,english,_,_,_]),
@@ -29,7 +30,8 @@ predicate1:-	Houses=[_,_,_,_,_],
 		write(WHO2),writeln(" holds zebra"),nl.
 
 % task 5.2 - какой цвет волос у каждого из друзей?
-% фамилия - волосы
+% вывод: фамилия - волосы
+
 predicate2:-	Friends=[_,_,_],
 		
 		% чтобы избежать перестановки одного и того же варианта
@@ -52,7 +54,8 @@ predicate2:-	Friends=[_,_,_],
 		write_list(Friends),nl.
 
 % task 5.3 - oпределить цвета платья и туфель на каждой из подруг
-% имя - платье - туфли
+% вывод: имя - платье - туфли
+
 predicate3:-	Friends=[_,_,_],
 
 		item_by_number(Friends,1,[anya,_,_]),
@@ -81,7 +84,8 @@ predicate3:-	Friends=[_,_,_],
 		write_list(Friends),nl.
 
 % task 5.4 - назвать фамилии слесаря, токаря и сварщика
-% фамилия - профессия - братья/cёстры
+% вывод: фамилия - профессия - братья/cёстры
+
 predicate4:-	Friends=[_,_,_],
 		
 		in_list(Friends,[borisov,_,_]),
@@ -119,10 +123,12 @@ predicate4:-	Friends=[_,_,_],
 		write_list(Friends),nl.
 
 % task 5.5 - как распределены жидкости по сосудам?
+% вывод: сосуд - жидкость
+
 % если рассматривать только расположение в ряд (а не в круг),
 % то при единственном возможном варианте молоко находится в банке
 % *из условия (противоречие): cтакан находится около банки и сосуда с молоком*
-% сосуд - жидкость
+
 predicate5:-	Vessels=[_,_,_,_],
 		
 		% jug	кувшин
@@ -153,3 +159,38 @@ predicate5:-	Vessels=[_,_,_,_],
 		nl,writeln("***VESSELS***"),nl,
 		writeln("*vessel,liquid*"),nl,
 		write_list(Vessels),nl.
+
+% task 5.6 -  кто чем занимается?
+% вывод: фамилия - профессия - место - связь
+
+% *как описать: "воронов никогда не слышал о левицком"?*
+
+% верный ответ:	воронов		танцор
+%		павлов		певец
+%		левицкий	писатель
+%		сахаров		художник
+
+predicate6:-	Talented=[_,_,_,_],
+
+		item_by_number(Talented,1,[voronov,_,concert,writer]),
+		item_by_number(Talented,2,[pavlov,_,_,painter]),
+		item_by_number(Talented,3,[levitsky,_,concert,_]),
+		item_by_number(Talented,4,[sakharov,_,_,writer]),
+
+		in_list(Talented,[_,dancer,_,_]),
+		in_list(Talented,[_,painter,studio,_]),
+		in_list(Talented,[_,singer,debut,_]),
+		in_list(Talented,[_,writer,_,painter]),
+
+		not(in_list(Talented,[voronov,singer,_,_])),
+		not(in_list(Talented,[levitsky,singer,_,_])),
+
+		not(in_list(Talented,[pavlov,writer,_,_])),
+		not(in_list(Talented,[pavlov,painter,_,_])),
+
+		not(in_list(Talented,[sakharov,writer,_,_])),
+		not(in_list(Talented,[voronov,writer,_,_])),
+
+		nl,writeln("***TALANTED***"),nl,
+		writeln("*surname,profession,place,connection*"),nl,
+		write_list(Talented),nl.
