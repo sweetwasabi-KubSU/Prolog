@@ -208,3 +208,35 @@ predicate6:-	Talented=[_,_,_,_],
 		nl,writeln("***TALANTED***"),nl,
 		writeln("*surname,profession,place,connection*"),nl,
 		write_list(Talented),nl.
+
+% task 5.7 - кто является австралийцем? каким спортом увлекается ричард?
+% вывод: имя - национальность - игра
+
+% верный ответ:	майкл австралиец
+%		ричард увлекается теннисом
+
+predicate7:-	Friends=[_,_,_],
+
+		% для решения данной загадки
+		% не имеет значение занятое место,
+		% (как и то, кто и в чём лучше играет)
+
+		% номер нахождения в списке нужен для того, 
+		% чтобы избежать перестановки одного и того же варианта
+
+		item_by_number(Friends,1,[michael,_,basketball]),
+		item_by_number(Friends,2,[simon,israeli,_]),
+		item_by_number(Friends,3,[richard,_,WHAT]),
+
+		in_list(Friends,[_,american,_]),
+		in_list(Friends,[WHO,australian,_]),
+
+		in_list(Friends,[_,_,tennis]),
+		in_list(Friends,[_,_,cricket]),
+
+		not(in_list(Friends,[michael,american,_])),
+		not(in_list(Friends,[simon,_,tennis])),
+
+		nl,writeln("***ANSWERS***"),nl,
+		write(WHO),writeln(" is australian"),
+		write("richard enjoys "),writeln(WHAT),nl.
