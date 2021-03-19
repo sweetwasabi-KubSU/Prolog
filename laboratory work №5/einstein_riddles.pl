@@ -244,3 +244,51 @@ predicate7:-	Friends=[_,_,_],
 		nl,writeln("***ANSWERS***"),nl,
 		write(WHO),writeln(" is australian"),
 		write("richard enjoys "),writeln(WHAT),nl.
+
+% task 5.8.9 -  кто где живет и у кoго какая профессия?
+% вывод: имя - профессия - город
+
+% верный ответ:	аладар	агроном		асод
+%		белой	аптекарь	будапешт
+%		балаш	бухгалтер	бекешчаб
+
+predicate8:-	Friends=[_,_,_],
+
+		item_by_number(Friends,1,["aladar",_,_]),
+		item_by_number(Friends,2,["beloy",_,_]),
+		item_by_number(Friends,3,["balash",_,_]),
+
+		% aphothecary	аптекарь
+		% bookkeeper	бухгалтер
+		% agromomist	агроном
+
+		in_list(Friends,[_,"aphothecary","budapest"]),
+		in_list(Friends,[_,"bookkeeper",_]),
+		in_list(Friends,[_,"agromomist",_]),
+
+		in_list(Friends,[_,_,"bekeshchab"]),
+		in_list(Friends,[_,_,"asod"]),
+
+		not(in_list(Friends,["balash",_,"budapest"])),
+
+		match_letters_list(Friends,Count),
+		(Count = 2),
+
+		nl,writeln("***FRIENDS***"),nl,
+		writeln("*name,profession,city*"),nl,
+		write_list(Friends),nl.
+
+% для проверки на совпадение первых букв
+same_letter([H1|_],[H2|_]):-H1=H2.
+
+% для подсчёта количества элементов списка, у которых
+% совпадает первая буква в имени, профессии и городе 
+match_letters_list([],0):-!.
+match_letters_list([[X1,X2,X3]|T],Count):-	match_letters_list(T,CurCount),
+
+						string_chars(X1,L1),
+						string_chars(X2,L2),
+						string_chars(X3,L3),
+
+						(same_letter(L1,L2),same_letter(L1,L3) ->
+						Count is CurCount+1;Count=CurCount).
