@@ -26,7 +26,7 @@ predicate1:-	Houses=[_,_,_,_,_],
 		
 		nl,writeln("***HOUSES***"),nl,
 		writeln("*house,country,drink,animal,cigarettes*"),nl,
-		write_list(Houses),nl,
+		write_list(Houses),
 		
 		nl,writeln("***ANSWERS***"),nl,
 		write(WHO1),writeln(" drinks water"),
@@ -236,6 +236,10 @@ predicate7:-	Friends=[_,_,_],
 
 		not(in_list(Friends,[michael,american,_])),
 		not(in_list(Friends,[simon,_,tennis])),
+
+		nl,writeln("***FRIENDS***"),nl,
+		writeln("*name,nationality,game*"),nl,
+		write_list(Friends),
 
 		nl,writeln("***ANSWERS***"),nl,
 		write(WHO),writeln(" is australian"),
