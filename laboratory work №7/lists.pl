@@ -57,11 +57,11 @@ list_el_numb_last(List,Elem,Num):-	reverse(List,InvList),
 % task 4.*4 - чтение списка, чтение элемента
 % найти номер первого вхождения элемента в список
 % *+ проверка на правильность*
-predicate4:-	readList(List),
-		write("set the item: "),read(Item),
-		(list_el_numb(List,Item,Number) ->
-		write("first item number: "),write(Number);
-		write("sorry: item isn't in the list!")).
+% predicate4:-	readList(List),
+%		write("set the item: "),read(Item),
+%		(list_el_numb(List,Item,Number) ->
+%		write("first item number: "),write(Number);
+%		write("sorry: item isn't in the list!")).
 
 % task 4.5 - чтение списка, чтение номера элемента
 % найти элемент в списке по заданному номеру

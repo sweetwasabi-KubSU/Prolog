@@ -84,3 +84,35 @@ count_reps([],[],_):-!.
 count_reps([Word|T],Counts,Words):-	count_reps(T,CurCounts,Words),
 					number_times(Words,Count,Word),
 					append([Count],CurCounts,Counts).
+
+% task 7.4 - вывести первые три символа и последний три символа, 
+% если длина строки больше 5, иначе - вывести первый символ столько 
+% раз, какова длина строки
+predicate4:-	read_string(L,_),
+
+		list_length(L,Length),
+		write("string length: "),write(Length),nl,
+
+		(Length>5 -> Index is Length-3,
+
+		build_list(L,CurL1,4),
+		build_list_after(L,CurL2,Index),
+
+		nl,write("first three characters: "),write_string(CurL1),
+		nl,write("last three characters: "),write_string(CurL2),nl,nl;
+
+		L \= [],
+		list_el_numb(L,First,1),
+		build_reps(Length,First,RepsL),
+
+		nl,writeln("repeated first character,"),
+		write("number of reps is equal to the length: "),
+		write_string(RepsL),nl,nl).
+
+% создает список, состоящий из одного элементааданное количество раз
+build_reps(0,_,L,L):-!.
+build_reps(N,X,L,CurL):-	CurN is N-1,
+				append(CurL,[X],NewL),
+				build_reps(CurN,X,L,NewL).
+build_reps(N,X,L):-build_reps(N,X,L,[]).
+
