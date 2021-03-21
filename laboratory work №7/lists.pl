@@ -66,11 +66,11 @@ list_el_numb_last(List,Elem,Num):-	reverse(List,InvList),
 % task 4.5 - чтение списка, чтение номера элемента
 % найти элемент в списке по заданному номеру
 % *+ проверка на правильность*
-predicate5:-	readList(List),
-		write("set the number: "),read(Number),
-		(list_el_numb(List,Item,Number) ->
-		write("item by number: "),write(Item);
-		write("sorry: item with this number isn't in the list!")).
+% predicate5:-	readList(List),
+%		write("set the number: "),read(Number),
+%		(list_el_numb(List,Item,Number) ->
+%		write("item by number: "),write(Item);
+%		write("sorry: item with this number isn't in the list!")).
 
 % task 4.6 - найти минимальный элемент списка (через рекурсию вверх)
 % *+ проверка на правильность*

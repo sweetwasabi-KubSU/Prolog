@@ -85,12 +85,10 @@ count_reps([Word|T],Counts,Words):-	count_reps(T,CurCounts,Words),
 					number_times(Words,Count,Word),
 					append([Count],CurCounts,Counts).
 
-% task 7.4 - вывести первые три символа и последний три символа, 
-% если длина строки больше 5, иначе - вывести первый символ столько 
-% раз, какова длина строки
-predicate4:-	read_string(L,_),
-
-		list_length(L,Length),
+% task 7.4 - вывести первые три символа и последние три символа, 
+% если длина строки больше 5, иначе - вывести первый символ
+% столько раз, какова длина строки
+predicate4:-	read_string(L,Length),
 		write("string length: "),write(Length),nl,
 
 		(Length>5 -> Index is Length-3,
@@ -116,3 +114,21 @@ build_reps(N,X,L,CurL):-	CurN is N-1,
 				build_reps(CurN,X,L,NewL).
 build_reps(N,X,L):-build_reps(N,X,L,[]).
 
+% task 7.5 - показать номера символов, совпадающих с последним символом строки
+predicate5:-	read_string(L,Length),
+
+		list_el_numb(L,X,Length),
+		list_matches(L,Matches,X),
+
+		write("matches = "),
+		writeln(Matches),nl.
+
+% собирает список индексов элементов, совпадающих с заданным
+list_matches([],[],0,_):-!.
+list_matches([H|T],Matches,Index,H):-	list_matches(T,CurMatches,CurIndex,H),
+					Index is CurIndex+1,
+					append(CurMatches,[Index],Matches),!.
+list_matches([_|T],Matches,Index,X):-	list_matches(T,Matches,CurIndex,X),
+					Index is CurIndex+1.
+list_matches(List,Matches,X):-	reverse(List,InvList),
+				list_matches(InvList,Matches,_,X).	
