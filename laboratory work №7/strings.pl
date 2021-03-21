@@ -170,3 +170,17 @@ string_next([_|[]],_,0):-!.
 string_next([_,H2|T],H2,Count):-	string_next([H2|T],H2,CurCount),
 					Count is CurCount+1,!.
 string_next([_|T],X,Count):-	string_next(T,X,Count).
+
+% task 7.8 - определить, какой символ в строку встречается раньше 'x' или 'w'
+% если какого-то из символов нет, вывести сообщение об этом
+predicate8:-	read_string(L,_),
+
+		X=119,W=120,
+
+		(list_el_numb(L,X,I1),
+		list_el_numb(L,W,I2) ->
+
+		(I1<I2 -> S=X;S=W),
+		write("success: "),put(S),writeln(" occurs earlier!"),nl;
+		
+		writeln("error: one of characters wasn't found!"),nl).	

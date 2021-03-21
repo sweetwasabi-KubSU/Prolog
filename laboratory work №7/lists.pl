@@ -87,9 +87,9 @@ min_list_down([H|T],CurMin,Min):-	(H<CurMin -> NewMin=H;NewMin=CurMin),
 min_list_down([H|T],Min):-min_list_down(T,H,Min).
 
 % task 4.8 - чтение списка, найти минимальный элемент
-predicate8:-	readList(List),
-		(min_list_up(List,Min) ->
-		write("min = "),write(Min)).
+% predicate8:-	readList(List),
+%		(min_list_up(List,Min) ->
+%		write("min = "),write(Min)).
 
 % task 4.9 - проверить, есть ли в списке заданный элемент
 member([X|_],X):-!.
