@@ -107,7 +107,7 @@ predicate4:-	read_string(L,Length),
 		write("number of reps is equal to the length: "),
 		write_string(RepsL),nl,nl).
 
-% создает список, состоящий из одного элементааданное количество раз
+% создает список, состоящий из одного элемента заданное количество раз
 build_reps(0,_,L,L):-!.
 build_reps(N,X,L,CurL):-	CurN is N-1,
 				append(CurL,[X],NewL),
@@ -225,3 +225,14 @@ check_string(_,[],[]).
 check_string(L,[Elem|T1],[Ind|T2]):-	list_el_numb(L,Elem,Ind),
 					check_string(L,T1,T2),!.
 check_string(_,_,_):-fail.
+
+% task 7.11 - если длина строки больше 10, то оставить в строке
+% только первые 6 символов, иначе - дополнить символами 'o' до длины 12
+predicate11:-	read_string(L,Length),
+
+		(Length>10 -> build_list(L,ResL,7);
+		Count is 12-Length,build_reps(Count,111,Reps),
+		append(L,Reps,ResL)),
+
+		write("output modified string: "),
+		write_string(ResL),nl,nl.
