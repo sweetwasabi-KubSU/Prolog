@@ -327,3 +327,27 @@ insert_list(L,ResL,X,Ind):-	build_list(L,L1,Ind),
 
 				append(L1,[X],CurL1),
 				append(CurL1,L2,ResL).
+
+% task 7.13 - заменить каждый четный символ
+% на 'a': если символ не равен 'a' или 'b',
+% на 'c': во всех остальных случаях
+predicate13:-	read_string(L,_),
+		replace_even(L,ResL),
+
+		write("output modified string: "),
+		write_string(ResL),nl,nl.
+
+% выполняет поставленную в task 7.13 задачу
+replace_even([],L,L,_):-!.
+replace_even([H|T],CurL,ResL,I):-	CurI is I+1,
+					1 is CurI mod 2,
+					append(CurL,[H],NewL),
+					replace_even(T,NewL,ResL,CurI),!.
+replace_even([H|T],CurL,ResL,I):-	CurI is I+1,
+					H \= 97,H \= 98,
+					append(CurL,[97],NewL),
+					replace_even(T,NewL,ResL,CurI),!.
+replace_even([_|T],CurL,ResL,I):-	CurI is I+1,
+					append(CurL,[99],NewL),
+					replace_even(T,NewL,ResL,CurI).
+replace_even(L,ResL):-replace_even(L,[],ResL,0).
