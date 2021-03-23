@@ -48,3 +48,9 @@ uncles(X):-uncle(Y,X),write(Y),nl,fail.
 % task 1.13
 newphew(X,Y):-man(X),uncle(Y,X).
 newphews(X):-newphew(Y,X),write(Y),nl,fail.
+
+% final test task - своячница двоюродного брата
+% *для работы нужно изменить базу фактов*
+sister_in_law(X,S):-	parent(Y,X),parent(Z,Y),man(Z),
+			parent(Z,C),parent(C,B),man(B),
+			parent(B,Ch),parent(S,Ch),woman(S).
