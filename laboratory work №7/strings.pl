@@ -376,3 +376,53 @@ predicate15:-	read_string(L,_),
 contains_only([],_):-!.
 contains_only([H|T],Values):-	member(Values,H),
 				contains_only(T,Values).
+
+% task 7.16 - заменить в строке все вхождения 'word' на 'letter'
+predicate16:-	read_string(L,_),
+		
+		W1=[119, 111, 114, 100],		% word
+		W2=[108, 101, 116, 116, 101, 114],	% letter
+
+		replace_words(L,ResL,W1,W2),
+
+		write("output modified string: "),
+		write_string(ResL),nl,nl.
+		
+% заменяет все вхождения одного слова на другое
+replace_words(L,L,[],_,_):-!.
+replace_words(L,ResL,[I|T],W,Length):-	remove_word(L,CurL,Length,I),
+					insert_word(CurL,NewL,W,I),
+					replace_words(NewL,ResL,T,W,Length).
+replace_words(L,ResL,W1,W2):-	find_index_in(L,InL,W1),
+				reverse(InL,CurInL),
+				list_length(W1,Length),
+				replace_words(L,ResL,CurInL,W2,Length).
+				
+% находит все первые индексы вхождения слова
+% пример: "gbcabcababc" - "abc" - [4,9]
+find_index_in([],[],_,_,_):-!.
+find_index_in(L,InL,Word,LenW,I):-	CurLenW is LenW+1,
+					build_list(L,CurWord,CurLenW),
+					list_same_order(Word,CurWord),
+					build_list_after(L,CurL,LenW),
+					CurI is I+LenW,					
+					find_index_in(CurL,CurInL,Word,LenW,CurI),
+					append([I],CurInL,InL),!.
+find_index_in([_|T],InL,Word,LenW,I):-	CurI is I+1,
+					find_index_in(T,InL,Word,LenW,CurI).							
+find_index_in(L,InL,Word):-	list_length(Word,LenW),
+				find_index_in(L,InL,Word,LenW,1).
+
+% удаляет заданное количество элементов, начиная с заданного индекса
+% *(индекс + количество - 1) не должно превышать длину*
+remove_word(L,L,0,_):-!.
+remove_word(L,ResL,Length,I):-	CurLength is Length-1,
+				list_delete_item(L,CurL,I),
+				remove_word(CurL,ResL,CurLength,I).
+
+% вставляет слово, начиная с заданной позиции
+% *индекс не должен превышать (длина + 1)*
+insert_word(L,L,[],_):-!.
+insert_word(L,ResL,[H|T],I):-	insert_list(L,CurL,H,I),
+				CurI is I+1,
+				insert_word(CurL,ResL,T,CurI).
