@@ -44,15 +44,15 @@ sumDigits(N,CurX,X):-	NewX is CurX + N mod 10,CurN is N div 10,
 sumDigits(N,X):-sumDigits(N,0,X).
 
 % task 3.9.9 - минимальная цифра числа (через рекурсию вверх)
-% minDigit(N,X):-	CurX is N mod 10,CurN is N div 10,
-%			(CurN=:=0 -> MinX is CurX;minDigit(CurN,MinX)),
-%			(CurX<MinX -> X=CurX;X=MinX).
+minDigit(N,X):-	CurX is N mod 10,CurN is N div 10,
+		(CurN=:=0 -> MinX is CurX;minDigit(CurN,MinX)),
+		(CurX<MinX -> X=CurX;X=MinX).
 
 % task 3.10.9 - минимальная цифра числа (через рекурсию вниз)
-minDigit(N,MinX,X):-	CurX is N mod 10,CurN is N div 10,
-			(CurX<MinX -> NewMinX is CurX;NewMinX is MinX),
-			(CurN=:=0 -> X=NewMinX;minDigit(CurN,NewMinX,X)).
-minDigit(N,X):-minDigit(N,N,X).
+% minDigit(N,MinX,X):-	CurX is N mod 10,CurN is N div 10,
+%			(CurX<MinX -> NewMinX is CurX;NewMinX is MinX),
+%			(CurN=:=0 -> X=NewMinX;minDigit(CurN,NewMinX,X)).
+% minDigit(N,X):-minDigit(N,N,X).
 
 % task 3.11.9 - произведение цифр числа, не делящихся на 5 (через рекурсию вверх)
 % примечание:	не покрывает случай, когда число состоит только из комбинации пятёрок и нулей,
@@ -78,7 +78,7 @@ numberOfDigits(N,X):-	CurX is N mod 10,CurN is N div 10,
 extraNumbersGCD(A,0,A):-!.
 extraNumbersGCD(A,B,X):-	(A>B -> Min is B,Reminder is A-B;Min is A,Reminder is B-A),
 				extraNumbersGCD(Min,Reminder,X).
-numbersGCD(A,B,X):-((A=:=0;B=:=0) -> writeln("Incorrect: A=0 or B=0!");extraNumbersGCD(A,B,X)).
+numbersGCD(A,B,X):-((A \= 0,B \= 0) -> extraNumbersGCD(A,B,X)).
 
 % task 3.*12 - проверка числа на простоту (через рекурсию вниз)
 primeNumber(N,X):-	(X>N div 2 -> !;Reminder is N mod X,
@@ -151,3 +151,83 @@ predicate15(N,X):-	maxDiv(N,A),multDigs(N,B),
 
 % task 3.16.9 - наибольшее количество пифагоровых троек для p < 1000
 % *this task isn't done yet*
+
+% final test task - две максимально отдалённые цифры числа, 
+% которые между собой взаимно-просты между собой,
+% но не взаимно-просты с пред. минимумом
+
+% *одна из цифр и пред. минимум могут совпадать*
+% *можно убрать, но так теряется часть решений*
+
+% удачные примеры: 84679, 8867497
+% просто примеры: 469, 269, 368
+
+extra_predicate(N):-	enum_digits(N,A,B),
+			previous_min_digit(N,Min),
+
+			numbersGCD(A,B,Y),Y=:=1,
+			numbersGCD(A,Min,X1),X1 \= 1,
+			numbersGCD(B,Min,X2),X2 \= 1,
+
+			nl,write("A = "),writeln(A),
+			write("B = "),writeln(B),
+			write("NOD = "),writeln(Y),
+
+			nl,write("A = "),writeln(A),
+			write("pMin = "),writeln(Min),
+			write("NOD = "),writeln(X1),
+
+			nl,write("B = "),writeln(B),
+			write("pMin = "),writeln(Min),
+			write("NOD = "),writeln(X2),nl,!.
+
+% перебор двух цифр числа (начиная с самых отдалённых друг от друга цифр)
+enum_digits(N,_,_):-	CurN is N div 10,
+			CurN=:=0,!,fail.
+enum_digits(N,A,B):-	A is N mod 10,
+			CurN is N div 10,
+			reverse_number(CurN,RevN),
+			enum_digit(RevN,B).
+enum_digits(N,A,B):-	CurN is N div 10,
+			enum_digits(CurN,A,B).	
+
+% перебор одной цифры числа
+enum_digit(0,_):-	!,fail.
+enum_digit(N,A):-	A is N mod 10.
+enum_digit(N,A):-	CurN is N div 10,
+			enum_digit(CurN,A).
+
+% переворачивает число (12345 -> 54321)
+% *не учитывает случай с нулями на конце (100 -> 1)*
+% *в данном контексте задачи это не влияет на результат*
+reverse_number(0,1,0):-!.
+reverse_number(N,Tens,X):-	CurN is N div 10,
+				reverse_number(CurN,CurTens,CurX),
+				NewX is (N mod 10)*CurTens,
+				Tens is CurTens*10,
+				X is CurX+NewX.
+reverse_number(N,X):-reverse_number(N,_,X).
+
+% убирает из числа все вхождения заданной цифры
+% *если число состояло только из этой цифры, то false*
+remove_digit(0,0,_,_):-!.
+remove_digit(A,B,Tens,Y):-	CurA is A div 10,X is A mod 10,
+				(X \= Y -> CurTens is Tens*10;CurTens=Tens),
+				remove_digit(CurA,CurB,CurTens,Y),
+				(X \= Y -> B is CurB+X*Tens;B=CurB).
+remove_digit(A,B,Y):-	remove_digit(A,B,1,Y),
+			B \= 0.
+
+% находит пред. минимальную цифру числа
+previous_min_digit(N,Min):-	minDigit(N,CurMin),
+				count_digit(N,CurMin,Count),
+				(Count > 1 -> Min is CurMin;
+				remove_digit(N,CurN,CurMin),
+				minDigit(CurN,Min)).
+
+% считает количество вхождений цифры в число (рекурсия вверх)
+count_digit(0,_,0):-!.
+count_digit(N,X,Count):-	CurN is N div 10,
+				CurX is N mod 10,
+				count_digit(CurN,X,CurCount),
+				(X=:=CurX -> Count is CurCount+1;Count=CurCount).
