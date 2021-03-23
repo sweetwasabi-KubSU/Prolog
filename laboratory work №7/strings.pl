@@ -188,7 +188,7 @@ predicate8:-	read_string(L,_),
 		(I1<I2 -> S=X;S=W),
 		write("success: "),put(S),writeln(" occurs earlier!"),nl;
 		
-		writeln("error: one of characters wasn't found!"),nl).
+		writeln("failure: one of characters wasn't found!"),nl).
 
 % task 7.9 - две строки: вывести большую по длине строку
 % столько раз, на сколько символов отличаются строки
@@ -228,8 +228,7 @@ predicate10:-	read_string(L,_),
 % проверяет, находятся ли заданные элементы по заданным индексам
 check_string(_,[],[]).
 check_string(L,[Elem|T1],[Ind|T2]):-	list_el_numb(L,Elem,Ind),
-					check_string(L,T1,T2),!.
-check_string(_,_,_):-fail.
+					check_string(L,T1,T2).
 
 % task 7.11 - если длина строки больше 10, то оставить в строке
 % только первые 6 символов, иначе - дополнить символами 'o' до длины 12
@@ -287,8 +286,7 @@ split_string(L,ResL,Count):-	list_length(L,Length),
 				build_list(L,FragL,CurCount),
 				build_list_after(L,CurL,Count),
 				split_string(CurL,CurResL,Count),
-				append([FragL],CurResL,ResL),!.
-split_string(_,_,_):-fail.
+				append([FragL],CurResL,ResL).
 
 % генерация кода символа, не совпадающего ни с одним элементом списка,
 % *диапазон - маленькие буквы латинского алфавита [97,122]*
@@ -365,3 +363,16 @@ count_digits([H|T],Count):-	count_digits(T,CurCount),
 				(H>=48,H=<57 ->
 				Count is CurCount+1;
 				Count=CurCount).
+
+% task 7.15 - определить, содержит ли строка только символы 'a', 'b', 'c' или нет
+predicate15:-	read_string(L,_),
+		Values=[97,98,99],
+
+		(contains_only(L,Values) ->
+		writeln("success: string contains only 'a','b','c'"),nl;
+		writeln("failure: string contains not only 'a','b','c'"),nl).
+
+% проверяет, cостоит ли один список только из элементов другого списка
+contains_only([],_):-!.
+contains_only([H|T],Values):-	member(Values,H),
+				contains_only(T,Values).
