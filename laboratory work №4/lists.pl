@@ -261,3 +261,28 @@ more_sum_previous([],_,CurCount,CurCount):-!.
 more_sum_previous([H|T],Sum,CurCount,Count):-	(H>Sum -> NewCount is CurCount+1;NewCount=CurCount),
 						CurSum is Sum+H,more_sum_previous(T,CurSum,NewCount,Count).
 more_sum_previous([H|T],Count):-more_sum_previous(T,H,0,Count).
+
+% final test task - найти количество элементов,
+% расположенных между первым макс. и последним мин.
+% найти предшествующий максимум и предшествующий минимум
+extra_predicate(Count,PrevMax,PrevMin):-	readList(List),
+
+						max_list_down(List,Max),
+						list_el_numb(List,Max,NumMax),
+
+						min_list_down(List,Min),
+						list_el_numb_last(List,Min,NumMin),
+
+						(NumMax>NumMin -> Count is NumMax-NumMin-1;
+						Count is NumMin-NumMax-1),
+
+						list_delete_item(List,CurList1,NumMax),
+						max_list_down(CurList1,PrevMax),
+
+						% можно добавить поиск по номеру нового макс.
+						% и его удаление - тогда при крайних случаях
+						% программа не позволит совпадать и макс. и мин.
+
+						list_el_numb(CurList1,Min,CurNumMin),
+						list_delete_item(CurList1,CurList2,CurNumMin),
+						min_list_down(CurList2,PrevMin).
