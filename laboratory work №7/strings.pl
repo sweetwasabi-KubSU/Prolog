@@ -512,4 +512,27 @@ build_string([],[]):-!.
 build_string([H|T],ResL):-	build_string(T,CurResL),
 				append([32],H,CurH),
 				append(CurH,CurResL,ResL).
+
+% task 7.21 - дана строка, состоящая из слов, разделенных символами,
+% которые перечислены во второй строке - показать все слова
+
+% task 7.22 -  вывести первый, последний и средний (если он есть) символы
+predicate22:-	read_string(L,Length),
 		
+		(Length>=2 ->
+
+		list_el_numb(L,First,1),
+		list_el_numb(L,Last,Length),
+
+		nl,write("first character: "),put(First),
+		nl,write("last character: "),put(Last),
+
+		(1 is Length mod 2 ->
+
+		I is (Length div 2)+1,
+		list_el_numb(L,Middle,I),
+		nl,write("middle character: "),put(Middle),nl,nl;
+
+		nl,writeln("middle character: *missing*"),nl);
+
+		writeln("failure: string must contain at least 2 characters!"),nl).	
