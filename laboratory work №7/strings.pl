@@ -527,6 +527,7 @@ predicate21:-	read_string(L,_),
 		nl,writeln("words of string:"),
 		write_strings(Words),nl.
 
+% разбивает строку на слова через заданные разделители
 words_by_seps([],_,Words,Words):-!.
 words_by_seps(L,[Sep|T],Words,CurWords):-	list_el_numb(L,Sep,SepI),
 						build_list(L,Word,SepI),
