@@ -481,4 +481,13 @@ remove_word_by_dig(L,ResL,Word):-	find_index_in(L,InL,Word),
 					find_word_dig(L,InL,CurInL,LenW),
 					reverse(CurInL,NewInL),
 					replace_words(L,ResL,NewInL,[],LenW).
-					
+
+% task 7.19 - найти количество вхождения 'aba' в строку
+predicate19:-	read_string(L,_),
+
+		W=[97,98,97],
+		find_index_in(L,InL,W),
+		list_length(InL,Count),
+
+		write("number of occurrences 'aba': "),
+		writeln(Count),nl.		
