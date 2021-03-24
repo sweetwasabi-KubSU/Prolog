@@ -378,6 +378,7 @@ contains_only([H|T],Values):-	member(Values,H),
 				contains_only(T,Values).
 
 % task 7.16 - заменить в строке все вхождения 'word' на 'letter'
+% пример: I wrote the word "wordword word wabcord letter aawordfr"
 predicate16:-	read_string(L,_),
 		
 		W1=[119, 111, 114, 100],		% word
@@ -426,3 +427,24 @@ insert_word(L,L,[],_):-!.
 insert_word(L,ResL,[H|T],I):-	insert_list(L,CurL,H,I),
 				CurI is I+1,
 				insert_word(CurL,ResL,T,CurI).
+
+% task 7.17 - удалить в строке все буквы 'x', за которыми следует 'abc'
+predicate17:-	read_string(L,_),
+
+		W1=[120,97,98,99],	% xabc
+		W2=[97,98,99],		% abc
+
+		replace_words(L,ResL,W1,W2),
+		
+		write("output modified string: "),
+		write_string(ResL),nl,nl.
+				
+% проверка, находится ли слово до заданного индекса
+check_word_bef(L,W,I):-	reverse(W,CurW),
+			word_bef(L,CurW,I).
+
+word_bef(_,[],_):-!.
+word_bef(L,[H|T],I):-	CurI is I-1,
+			list_el_numb(L,H,CurI),
+			word_bef(L,T,CurI).
+				
