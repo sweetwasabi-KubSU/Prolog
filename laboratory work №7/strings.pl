@@ -556,4 +556,32 @@ predicate22:-	read_string(L,Length),
 
 		nl,writeln("middle character: *missing*"),nl);
 
-		writeln("failure: string must contain at least 2 characters!"),nl).	
+		writeln("failure: string must contain at least 2 characters!"),nl).
+
+% final test task - заменить все цифры на их буквенное написание
+extra_predicate:-	read_string(L,_),
+
+			D0=[90,69,82,79],
+			D1=[79,78,69],
+			D2=[84,87,79],
+			D3=[84,72,82,69,69],
+			D4=[70,79,85,82],
+			D5=[70,73,86,69],
+			D6=[83,73,88],
+			D7=[83,69,86,69,78],
+			D8=[69,73,71,72,84],
+			D9=[78,73,78,69],
+
+			replace_words(L,L0,[48],D0),
+			replace_words(L0,L1,[49],D1),
+			replace_words(L1,L2,[50],D2),
+			replace_words(L2,L3,[51],D3),
+			replace_words(L3,L4,[52],D4),
+			replace_words(L4,L5,[53],D5),
+			replace_words(L5,L6,[54],D6),
+			replace_words(L6,L7,[55],D7),
+			replace_words(L7,L8,[56],D8),
+			replace_words(L8,L9,[57],D9),
+
+			write("output modified string: "),
+			write_string(L9),nl,nl.
