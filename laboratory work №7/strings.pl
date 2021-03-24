@@ -515,6 +515,26 @@ build_string([H|T],ResL):-	build_string(T,CurResL),
 
 % task 7.21 - дана строка, состоящая из слов, разделенных символами,
 % которые перечислены во второй строке - показать все слова
+% *разделители в первой строке должны идти в том же, что и во второй*
+% *если в первой строке не встретилось ни одного разделителя,*
+% *то вся строка - слово* 
+% *могут быть лишние разделители*
+predicate21:-	read_string(L,_),
+		read_string(Seps,_),
+		
+		words_by_seps(L,Seps,Words),
+
+		nl,writeln("words of string:"),
+		write_strings(Words),nl.
+
+words_by_seps([],_,Words,Words):-!.
+words_by_seps(L,[Sep|T],Words,CurWords):-	list_el_numb(L,Sep,SepI),
+						build_list(L,Word,SepI),
+						append(CurWords,[Word],NewWords),
+						build_list_after(L,CurL,SepI),
+						words_by_seps(CurL,T,Words,NewWords),!.
+words_by_seps(L,_,Words,CurWords):-	append(CurWords,[L],Words).
+words_by_seps(L,Seps,Words):-words_by_seps(L,Seps,Words,[]). 
 
 % task 7.22 -  вывести первый, последний и средний (если он есть) символы
 predicate22:-	read_string(L,Length),
