@@ -284,3 +284,28 @@ build_words_length([],[]):-!.
 build_words_length([W|T],LengthWs):-	build_words_length(T,CurLengthWs),
 					list_length(W,LengthW),
 					append([LengthW],CurLengthWs,LengthWs).
+
+% task 8.2.16 (3/3) - дан массив в котором находятся строки "белый", "синий"
+% и "красный" в случайном порядке: необходимо упорядочить массив так, 
+% чтобы получился российский флаг
+% *кодировка input.txt - ANSI*
+% *корректно ли условие?*
+file_predicate_2_16:-	see_file,
+			read_list_string(L,_),
+			seen,
+
+			White=[1073,1077,1083,1099,1081],
+			Blue=[1089,1080,1085,1080,1081],
+			%Red=[1082,1088,1072,1089,1085,1099,1081],
+
+			list_el_numb(L,White,IW),
+			replace_two_words(L,CurL,IW,1),
+
+			list_el_numb(CurL,Blue,IB),
+			replace_two_words(CurL,ResL,IB,2),
+
+			nl,writeln("strings from file: "),
+			write_list_string(L),
+
+			nl,writeln("russian flag from these strings: "),
+			write_list_string(ResL),nl.
