@@ -47,11 +47,15 @@ tell_file:-tell('C:/Users/prolog/output.txt').	% told - закрытие
 
 % task 8.1.1 (1/5) - прочитать из файла строки и вывести длину наибольшей строки
 file_predicate_1_1:-	see_file,
-			read_list_string(_,Lengths),
+			read_list_string(L,Lengths),
 			seen,
 
 			max_list_down(Lengths,Max),
-			write("max string length: "),
+
+			nl,writeln("strings from file:"),
+			write_list_string(L),
+
+			nl,write("max string length: "),
 			writeln(Max),nl.		
 
 % task 8.1.2 (2/5) - определить, сколько в файле строк, не содержащих пробелы
@@ -60,7 +64,11 @@ file_predicate_1_2:-	see_file,
 			seen,
 
 			count_not_member(L,Count,32),
-			write("number of strings without spaces: "),
+
+			nl,writeln("strings from file:"),
+			write_list_string(L),
+
+			nl,write("number of strings without spaces: "),
 			writeln(Count),nl.
 
 % считает количество таких списков, в которых не содержится заданный элемент
@@ -78,10 +86,14 @@ file_predicate_1_3:-	see_file,
 
 			counts_list(L,Counts,65),	% 65 - A
 			arithmetic_mean(Counts,AM),
+
+			nl,writeln("strings from file:"),
+			write_list_string(L),
+
 			nl,write("arithmetic mean: "),writeln(AM),
 
-			writeln("strings, where 'A' occurs more than average:"),
-			nl,double_list_output(L,Counts,AM),nl.
+			nl,writeln("strings, where 'A' occurs more than average:"),
+			double_list_output(L,Counts,AM),nl.
 
 % cоздает список с количеством вхождений элемента в списки
 counts_list([],[],_):-!.
@@ -108,6 +120,9 @@ file_predicate_1_4:-	see_file,
 			
 			most_common_word(L,MaxW,MaxC),
 
+			nl,writeln("strings from file:"),
+			write_list_string(L),
+
 			nl,writeln("*if the frequency of occurrence is repeated,*"),
 			writeln("*the first word is output*"),
 
@@ -132,14 +147,21 @@ all_get_words([L|T],Words):-	all_get_words(T,CurWords),
 
 % task 8.1.5 (5/5, ?) - вывести в отдельный файл строки,
 % состоящие из слов, не повторяющихся в исходном файле
+% *запуск от имени администратора*
 file_predicate_1_5:-	see_file,
 			read_list_string(L,_),
 			seen,
 
 			all_get_words(L,Words),
 
+			tell_file,
+			no_reps_output(Words,L),
+			told,
+
 			nl,writeln("strings with non-repeating words:"),
-			nl,no_reps_output(Words,L),nl.
+			no_reps_output(Words,L),
+
+			nl,writeln("*written to file*"),nl.
 
 % вывод списков, состоящих из слов, не повторяющихся в заданном списке
 no_reps_output(_,[]):-!.
@@ -176,10 +198,10 @@ file_predicate_2_3:-	see_file,
 			get_words(L,Ws,_),
 			mix_words(Ws,RandomWs),
 
-			nl,writeln("original word order:"),
-			write_words_string(Ws),nl,
+			nl,write("original word order: "),
+			write_words_string(Ws),
 
-			nl,writeln("random word order:"),
+			nl,write("random word order: "),
 			write_words_string(RandomWs),nl,nl.
 
 % перемешивает слова списка в случайном порядке
