@@ -212,7 +212,7 @@ replace_word(Ws,ResWs,W,I):-	delete_word(Ws,CurWs,I),
 				append(NewWs1,[W],ResWs1),
 				append(ResWs1,NewWs2,ResWs).
 
-% удаляет слово на заданном индексе
+% удаляет слово по заданному индексу
 delete_word([_|T],CurWs,ResWs,I,I):-	append(CurWs,T,ResWs),!.
 delete_word([W|T],CurWs,ResWs,I,CurI):-	append(CurWs,[W],NewWs),
 					NewI is CurI+1,
@@ -235,4 +235,30 @@ build_words_after([_|T],CurWs,ResWs,I):-	CurI is I-1,
 						build_words_after(T,CurWs,ResWs,CurI).
 build_words_after(Ws,ResWs,I):-build_words_after(Ws,[],ResWs,I).
 
- 
+% task 8.2.8 (2/3) - посчитать количество слов с четным количеством символов
+file_predicate_2_8:-	see_file,
+			read_string(L,_,_),
+			seen,
+
+			get_words(L,Ws,_),
+			count_div_words(Ws,Count,2),
+
+			nl,write("string from file: "),
+			write_words_string(Ws),
+
+			nl,write("number of even-length words: "),
+			writeln(Count),nl.
+
+% считает количество слов, чья длина делится на заданное число
+count_div_words([],0,_):-!.
+count_div_words([W|T],Count,X):-	list_length(W,Length),
+					0 is Length mod X,
+					count_div_words(T,CurCount,X),
+					Count is CurCount+1,!.
+count_div_words([_|T],Count,X):-	count_div_words(T,Count,X).
+
+% создаёт список из длин слов (не используется)
+build_words_length([],[]):-!.
+build_words_length([W|T],LengthWs):-	build_words_length(T,CurLengthWs),
+					list_length(W,LengthW),
+					append([LengthW],CurLengthWs,LengthWs).
