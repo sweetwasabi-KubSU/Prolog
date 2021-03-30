@@ -1,7 +1,7 @@
 % task 8.0 - вспомогательные предикаты
 
 % чтение одной строки и запись в список
-read_string(-1,A,A,N,N,1):-!.		% конец файла
+read_string(-1,A,A,N,N,1):-!.		% -1 - конец файла
 read_string(10,A,A,N,N,0):-!.		% 10 - enter
 read_string(X,L,CurL,N,CurN,Flag):-	NewN is CurN+1,
 					append(CurL,[X],NewL),
@@ -27,10 +27,15 @@ read_list_string(L,CurL,Lengths,CurLengths,0):-	read_string(Line,Length,Flag),
 read_list_string(L,Lengths):-	read_string(Line,Length,Flag),
 				read_list_string(L,[Line],Lengths,[Length],Flag).
 
-% вывод списка списков
+% вывод списка строк
 write_list_string([]):-!.
 write_list_string([H|T]):-	write_string(H),nl,
 				write_list_string(T).
+
+% вывод списка cлов
+write_words_string([]):-!.
+write_words_string([H|T]):-	write_string(H),write(" "),
+				write_words_string(T).
 
 % открытие файла на чтение
 see_file:-see('C:/Users/prolog/input.txt').	% seen - закрытие
@@ -146,3 +151,88 @@ no_reps_output(AllWords,[L|T]):-	L \= [],
 					write_string(L),nl,
 					no_reps_output(AllWords,T),!.
 no_reps_output(AllWords,[_|T]):-	no_reps_output(AllWords,T).
+
+% TASK 8.2: 3, 8, 16
+
+% task 8.2.3 (1/3) - необходимо перемешать слова в строке
+% в случайном порядке, слова записаны через пробел
+
+% есть случаи, когда невозможно сделать так, чтобы
+% на позиции не находилось исходные слова
+% например: "join milk join"
+% следовательно, реализован вариант, когда слова
+% случайно перемешиваются, но при этом какие-то
+% из них могут остаться на исходной позиции, что
+% в целом удовлетворяет условию случайного порядка
+
+% можно реализовать вариант, чтобы записывались 
+% исходные позиции и полученные рандомные,
+% тогда перемешивание будет условно полным
+
+file_predicate_2_3:-	see_file,
+			read_string(L,_,_),
+			seen,
+
+			get_words(L,Ws,_),
+			mix_words(Ws,RandomWs),
+
+			nl,writeln("original word order:"),
+			write_words_string(Ws),nl,
+
+			nl,writeln("random word order:"),
+			write_words_string(RandomWs),nl,nl.
+
+% перемешивает слова списка в случайном порядке
+mix_words([],RandomWs,RandomWs,_,_):-!.
+mix_words([W|T],RandomWs,CurRandomWs,LengthWs,I):-	CurI is I+1,
+							list_length(W,LengthW),
+							In is (((LengthW*CurI) mod LengthWs)+1),
+							replace_two_words(CurRandomWs,NewRandomWs,CurI,In),
+							mix_words(T,RandomWs,NewRandomWs,LengthWs,CurI).
+
+mix_words(Ws,RandomWs):-	list_length(Ws,LengthWs),
+				mix_words(Ws,RandomWs,Ws,LengthWs,0).
+
+% ДАЛЕЕ ПЕРЕДЕЛАННЫЕ ПРЕДИКАТЫ ИЗ lists.pl и strings.pl
+
+% меняет местами два слова по индексам
+replace_two_words(Ws,ResWs,I1,I2):-	list_el_numb(Ws,W1,I1),
+					list_el_numb(Ws,W2,I2),
+					
+					replace_word(Ws,CurWs,W1,I2),
+					replace_word(CurWs,ResWs,W2,I1).
+
+% меняет слово по заданному индексу
+replace_word(Ws,ResWs,W,I):-	delete_word(Ws,CurWs,I),
+
+				build_words_before(CurWs,NewWs1,I),
+				CurI is I-1,
+				build_words_after(CurWs,NewWs2,CurI),
+
+				append(NewWs1,[W],ResWs1),
+				append(ResWs1,NewWs2,ResWs).
+
+% удаляет слово на заданном индексе
+delete_word([_|T],CurWs,ResWs,I,I):-	append(CurWs,T,ResWs),!.
+delete_word([W|T],CurWs,ResWs,I,CurI):-	append(CurWs,[W],NewWs),
+					NewI is CurI+1,
+					delete_word(T,NewWs,ResWs,I,NewI).
+delete_word(Ws,ResWs,I):-delete_word(Ws,[],ResWs,I,1).
+
+% собирает в новый список слова до заданного индекса
+build_words_before(_,CurWs,CurWs,1):-!.
+build_words_before([W|T],CurWs,ResWs,I):-	append(CurWs,[W],NewWs),
+						CurI is I-1,
+						build_words_before(T,NewWs,ResWs,CurI).
+build_words_before(Ws,ResWs,I):-build_words_before(Ws,[],ResWs,I).
+
+% собирает в новый список слова после заданного индекса
+build_words_after([],CurWs,CurWs,_):-!.
+build_words_after([W|T],CurWs,ResWs,I):-	CurI is I-1,CurI<0,
+						append(CurWs,[W],NewWs),
+						build_words_after(T,NewWs,ResWs,CurI),!.
+build_words_after([_|T],CurWs,ResWs,I):-	CurI is I-1,
+						build_words_after(T,CurWs,ResWs,CurI).
+build_words_after(Ws,ResWs,I):-build_words_after(Ws,[],ResWs,I).
+
+ 
