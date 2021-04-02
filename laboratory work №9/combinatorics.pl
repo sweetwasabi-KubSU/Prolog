@@ -200,6 +200,35 @@ build_k_combs_reps(C,K):-	build_k_combs_reps(Comb,K,C),
 				write_string(Comb),
 				nl,fail.
 
+% task 9.2 - дано множество {a,b,c,d,e,f}, построить
+% все слова длины 5, в которых ровно две буквы a,
+% остальные могут повторяться
+% *5^3 * C(5,2) = 1250*
+comb_predicate_9_2:-	L = [98,99,100,101,102],	% b, c, d, e, f
+
+			tell_extra_file,
+			not(build_k_perms_reps(L,3)),
+			told,
+				
+			see_extra_file,
+			read_and_remove_last(CurL),
+			seen,
+
+			insert_n_times(CurL,NewL,97,2),
+			list_length(NewL,Q),
+
+			%nl,writeln("output:"),
+			%write_strings(NewL),nl,
+
+			write("quantity: "),
+			writeln(Q),
+
+			tell_file,
+			write_strings(NewL),
+			told,
+
+			nl,writeln("*written to file*").
+
 % task 9.3 - дано множество {a,b,c,d,e,f}, построить
 % все слова длины 5, в которых ровно две буквы a,
 % остальные не повторяются
@@ -256,7 +285,7 @@ insert_from(L,Ws,X):-	(list_el_numb_last(L,X,CurI) -> I is CurI+1;I=1),
 			N is Length+1,
 			insert_from(L,Ws,[],X,I,N).
 
-% *strings.pl* вставить элемент на заданный индекс
+% *strings.pl* вставляет элемент на заданный индекс
 insert_list(L,ResL,X,Ind):-	build_list(L,L1,Ind),
 
 				CurInd is Ind-1,
