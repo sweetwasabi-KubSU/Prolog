@@ -203,7 +203,8 @@ build_k_combs_reps(C,K):-	build_k_combs_reps(Comb,K,C),
 % task 9.2 - дано множество {a,b,c,d,e,f}, построить
 % все слова длины 5, в которых ровно две буквы a,
 % остальные могут повторяться
-% *5^3 * C(5,2) = 1250*
+% *5^3 * C(5,2)*
+% *125 * 10 = 1250*
 comb_predicate_9_2:-	L = [98,99,100,101,102],	% b, c, d, e, f
 
 			tell_extra_file,
@@ -232,8 +233,9 @@ comb_predicate_9_2:-	L = [98,99,100,101,102],	% b, c, d, e, f
 % task 9.3 - дано множество {a,b,c,d,e,f}, построить
 % все слова длины 5, в которых ровно две буквы a,
 % остальные не повторяются
-% *(5!/(5-3)!) * C(5,2) = 600*
-comb_predicate_9_2:-	L = [98,99,100,101,102],	% b, c, d, e, f
+% *(5!/(5-3)!) * C(5,2)*
+% *60 * 10 = 600*
+comb_predicate_9_3:-	L = [98,99,100,101,102],	% b, c, d, e, f
 
 			tell_extra_file,
 			not(build_k_perms(L,3)),
@@ -293,3 +295,45 @@ insert_list(L,ResL,X,Ind):-	build_list(L,L1,Ind),
 
 				append(L1,[X],CurL1),
 				append(CurL1,L2,ResL).
+
+% task 9.4 - дано множество {a,b,c,d,e,f},
+% построить все слова длины 5, в которых ровно одна буква
+% повторяется 2 раза, остальные буквы не повторяются
+% *(5!/(5-3)!) * C(5,2) * 6 = 3600*
+comb_predicate_9_4:-	L = [97,98,99,100,101,102],
+
+			one_reps_rest_no(L,Ws,5,2),
+			list_length(Ws,Q),
+
+			write("quantity: "),
+			writeln(Q),
+
+			tell_file,
+			write_strings(Ws),
+			told,
+
+			nl,writeln("*written to file*").
+
+% строит все возможные комбинации *длины n*,
+% где любая буква повторяется k раз,
+% остальные не повторяются
+one_reps_rest_no(_,[],_,_,0):-!.
+one_reps_rest_no(L,Ws,Length,K,I):-	CurI is I-1,
+					one_reps_rest_no(L,CurWs,Length,K,CurI),
+
+					list_el_numb(L,El,I),
+					list_delete_item(L,CurL,I),
+
+					tell_extra_file,
+					not(build_k_perms(CurL,Length)),
+					told,
+
+					see_extra_file,
+					read_and_remove_last(W),
+					seen,
+					
+					insert_n_times(W,CurW,El,K),
+					append(CurWs,CurW,Ws).
+one_reps_rest_no(L,Ws,N,K):-	Length is N-K,
+				list_length(L,I),
+				one_reps_rest_no(L,Ws,Length,K,I).
